@@ -1,13 +1,10 @@
-import react from "react";
+import React from "react";
 
-import {Button, View} from "react-native";
+import {Button} from "react-native";
 
-const App = () => {
-  return (
-    <View>
-      <Button title="Create New Account"/>
-    </View>
-  );
-};
+function App(){
+ const b = <Button title="Create New Accunt"/> 
+ return b; 
+}
 
 export default App;
