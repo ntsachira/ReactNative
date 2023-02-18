@@ -22,7 +22,7 @@ function App(){
 
 export default App;
 
-function Home(navigation){
+function Home({navigation}){
     const ui=(
         <View style={styles.main}>
             <Text style={styles.text1}>Home Screen</Text>
@@ -37,14 +37,20 @@ function Home(navigation){
     return ui;
 }
 
-function Profile(navigation){
+function Profile({navigation}){
     const ui=(
         <View style={styles.main}>
             <Text style={styles.text1}>Profile Screen</Text>
+            <Button title="Go To Home" onPress={n}/>
         </View>
     );
 
+    function n(){
+        //Alert.alert("","");
+        navigation.navigate("Home");
+    }
     return ui;
+   
 }
 
 const styles = StyleSheet.create(
