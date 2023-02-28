@@ -119,3 +119,75 @@ function chat() {
     );
     return ui;
   }
+
+  const styles = StyleSheet.create({
+    chatSendView: {
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        backgroundColor: '#9999',
+      },
+      chatInput1: {
+        width: '80%',
+        height: 45,
+        borderStyle: 'solid',
+        borderRadius: 22,
+        paddingHorizontal: 15,
+        backgroundColor: 'white',
+      },
+      chatIcon1: {
+        paddingLeft: 10,
+        color: '#0099',
+        fontSize: 25,
+      },
+      chatText3: {
+        fontSize: 10,
+      },
+      chatIconSeen: {
+        color: 'red',
+      },
+      chatList: {
+        width: '100%',
+      },
+      chatView1: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        columnGap: 5,
+      },
+      chatViewLeft: {
+        alignSelf: 'flex-start',
+        backgroundColor: '#0001',
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+        color: 'black',
+        borderRadius: 20,
+        margin: 5,
+      },
+      chatViewRight: {
+        alignSelf: 'flex-end',
+        backgroundColor: '#0001',
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+        color: 'black',
+        borderRadius: 20,
+        marginHorizontal: 10,
+      },
+      chatText2: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#000000',
+        paddingVertical: 15,
+      },
+      chatText1: {
+        fontSize: 28,
+        paddingVertical: 15,
+        color: '#0461c3',
+        fontFamily: 'RighteousRegular',
+      },
+      chat: {
+        flex: 1,
+        alignItems: 'center',
+      },
+  });

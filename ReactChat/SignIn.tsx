@@ -13,6 +13,7 @@ import {
 import { Icon } from "react-native-vector-icons/Icon";
 
 import { M } from "./Test";
+import { StyleSheet } from 'react-native';
 
 
 function signIn() {
@@ -88,3 +89,58 @@ function signIn() {
       request.send(formData);
     }
   }
+
+  const styles = StyleSheet.create({
+    signInButtonText1: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
+      signInButton1: {
+        width: '80%',
+        height: 50,
+        backgroundColor: 'black',
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 5,
+      },
+      signInButton2: {
+        width: '80%',
+        height: 50,
+        backgroundColor: '#19548c',
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: -10,
+      },
+      signInView1: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      signInIcon1: {
+        fontSize: 24,
+        position: 'absolute',
+        start: 15,
+      },
+      signInInput1: {
+        height: 50,
+        borderWidth: 1,
+        borderColor: 'black',
+        fontSize: 18,
+        width: '80%',
+        paddingStart: 40,
+        borderRadius: 10,
+      },
+      signInImage: {
+        width: 150,
+        height: 150,
+        borderRadius: 75,
+      },
+      signInMain: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 25,
+      },
+  });

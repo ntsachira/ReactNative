@@ -1,8 +1,17 @@
 import React from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
-import { SafeAreaView, Text, View, TextInput, FlatList, Image } from "react-native";
+import { 
+    SafeAreaView, 
+    Text, 
+    View, 
+    TextInput, 
+    FlatList, 
+    Image,
+    StyleSheet
+ } from "react-native";
 import { Icon } from "react-native-vector-icons/Icon";
+
 
 function home() {
     const [items, setItems] = useState([]);
@@ -62,3 +71,85 @@ function home() {
   
     return ui;
   }
+
+  const styles = StyleSheet.create({
+    itemView1: {
+        padding: 15,
+        width: '60%',
+        rowGap: 5,
+      },
+      itemView2: {
+        alignItems: 'flex-end',
+        padding: 15,
+        rowGap: 5,
+        marginLeft: -5,
+      },
+      itemShape1: {
+        height: 24,
+        width: 24,
+        backgroundColor: 'blue',
+        borderRadius: 11,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      itemText4: {
+        fontSize: 14,
+        color: 'white',
+        fontWeight: 'bold',
+      },
+      itemText3: {
+        fontSize: 14,
+        color: '#808080',
+      },
+      itemText1: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#000000',
+      },
+      itemText2: {
+        fontSize: 16,
+        color: '#808080',
+      },
+      item: {
+        flexDirection: 'row',
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+      },
+      itemImage: {
+        height: 80,
+        width: 80,
+        borderRadius: 50,
+      },
+    home: {
+        flex: 1,
+        alignItems: 'center',
+      },
+      homeText1: {
+        fontSize: 28,
+        paddingVertical: 15,
+        color: '#0461c3',
+        fontFamily: 'RighteousRegular',
+      },
+      homeInput1: {
+        height: 45,
+        borderStyle: 'solid',
+        borderWidth: 2,
+        width: '90%',
+        borderRadius: 20,
+        fontSize: 20,
+        paddingLeft: 15,
+        paddingEnd: 45,
+        borderColor: '#0461c3',
+      },
+      homeView1: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15,
+      },
+      homeImage1: {
+        position: 'absolute',
+        right: 15,
+        height: 28,
+        width: 28,
+      },
+  });
