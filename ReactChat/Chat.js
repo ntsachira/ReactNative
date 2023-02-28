@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {SafeAreaView, Text, Image, FlatList, View, TextInput, TouchableOpacity, Alert, StyleSheet } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 
-export function Chat() {
+export function Chat({navigation}) {
 
     const [chatText,setChatText] = useState("");
   
@@ -13,8 +13,7 @@ export function Chat() {
       var userJsonText = await AsyncStorage.getItem('user');
       var userJSObject = JSON.parse(userJsonText);
       setUserName(userJSObject.name);
-    }
-  
+    }  
     m();
   
     const [chatHistory, setChatHistory] = useState([]);

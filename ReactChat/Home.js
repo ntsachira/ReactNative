@@ -1,5 +1,5 @@
 import React,{ useState } from 'react';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage"; 
 import { 
     SafeAreaView, 
     Text, 
@@ -12,7 +12,7 @@ import {
  import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 
-export function Home() {
+export function Home({navigation}) {
     const [items, setItems] = useState([]);
   
     async function loadFriendList() {

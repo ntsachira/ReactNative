@@ -3,7 +3,7 @@ import { Alert, Button, SafeAreaView, StyleSheet, TextInput, View } from "react-
 import { launchImageLibrary } from "react-native-image-picker";
 import SelectDropdown from "react-native-select-dropdown";
 
-export function SignUp() {
+export function SignUp({navigation}) {
   const [mobileNumber,setMobileNumber] = useState("");  
   const [name,setName] = useState("");
   const [password,setPassword] = useState("");

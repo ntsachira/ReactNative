@@ -15,7 +15,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
-export function SignIn() {
+export function SignIn({navigation}) {
+
+  
+
     const [mobile, setMobile] = useState(null);
     const [password, setPassword] = useState(null);
   
@@ -80,6 +83,9 @@ export function SignIn() {
             var userObject = jsResponseObject.user;
             Alert.alert('Message', 'Hello ' + userObject.name);
             AsyncStorage.setItem('user', JSON.stringify(userObject));
+
+            //Navigate to Home
+            navigation.navigate("Home");
           }
         }
       };
