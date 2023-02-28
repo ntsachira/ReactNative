@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {SafeAreaView, Text, Image, FlatList, View, TextInput, TouchableOpacity, Alert, StyleSheet } from "react-native";
-import { Icon } from "react-native-vector-icons/Icon";
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
-function chat() {
+export function Chat() {
 
     const [chatText,setChatText] = useState("");
   

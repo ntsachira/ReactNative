@@ -1,6 +1,5 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState } from "react";
 import { 
     SafeAreaView, 
     Text, 
@@ -10,10 +9,10 @@ import {
     Image,
     StyleSheet
  } from "react-native";
-import { Icon } from "react-native-vector-icons/Icon";
+ import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 
-function home() {
+export function Home() {
     const [items, setItems] = useState([]);
   
     async function loadFriendList() {

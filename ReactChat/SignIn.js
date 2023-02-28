@@ -9,14 +9,13 @@ import {
     Pressable, 
     Text, 
     Alert,  
+    StyleSheet
 } from "react-native";
-import { Icon } from "react-native-vector-icons/Icon";
-
-import { M } from "./Test";
-import { StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 
-function signIn() {
+
+export function SignIn() {
     const [mobile, setMobile] = useState(null);
     const [password, setPassword] = useState(null);
   
@@ -54,9 +53,8 @@ function signIn() {
         </Pressable>
         <Pressable style={styles.signInButton2}>
           <Text style={styles.signInButtonText1}>New user? Sign Up</Text>
-        </Pressable>
-  
-        <M/>
+        </Pressable> 
+       
         
       </SafeAreaView>
       
