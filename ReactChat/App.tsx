@@ -7,19 +7,15 @@ import {
   TextInput,
   Image,
   View,
-  FlatList,
-  TouchableHighlight,
+  FlatList,  
   Button,
   Pressable,
   Alert,
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; //this is not a syntax error
-import DropDownPicker from 'react-native-dropdown-picker';
-import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {get} from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { launchImageLibrary} from 'react-native-image-picker';
 import SelectDropdown from 'react-native-select-dropdown';
 import {M} from './Test';
 
@@ -200,8 +196,8 @@ function chatItem({item}) {
 }
 
 function signIn() {
-  const [mobile, setMobile] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [mobile, setMobile] = useState("");
+  const [password, setPassword] = useState("");
 
   const ui = (
     <SafeAreaView style={styles.signInMain}>
@@ -240,7 +236,7 @@ function signIn() {
       </Pressable>
 
       <M/>
-      
+
     </SafeAreaView>
     
   );

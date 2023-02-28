@@ -1,0 +1,90 @@
+import React from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
+import { 
+    SafeAreaView, 
+    Image, 
+    View, 
+    TextInput, 
+    Pressable, 
+    Text, 
+    Alert,  
+} from "react-native";
+import { Icon } from "react-native-vector-icons/Icon";
+
+import { M } from "./Test";
+
+
+function signIn() {
+    const [mobile, setMobile] = useState(null);
+    const [password, setPassword] = useState(null);
+  
+    const ui = (
+      <SafeAreaView style={styles.signInMain}>
+        <Image
+          source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}
+          style={styles.signInImage}
+        />
+  
+        <View style={styles.signInView1}>
+          <Icon style={styles.signInIcon1} name="mobile" />
+          <TextInput
+            style={styles.signInInput1}
+            autoCorrect={false}
+            inputMode={'numeric'}
+            maxLength={10}
+            placeholder={'Enter your mobile'}
+            onChangeText={setMobile}
+          />
+        </View>
+  
+        <View style={styles.signInView1}>
+          <Icon style={styles.signInIcon1} name="lock" />
+          <TextInput
+            style={styles.signInInput1}
+            secureTextEntry={true}
+            placeholder={'Enter your password'}
+            onChangeText={setPassword}
+          />
+        </View>
+  
+        <Pressable style={styles.signInButton1} onPress={signInProcess}>
+          <Text style={styles.signInButtonText1}>Sign In</Text>
+        </Pressable>
+        <Pressable style={styles.signInButton2}>
+          <Text style={styles.signInButtonText1}>New user? Sign Up</Text>
+        </Pressable>
+  
+        <M/>
+        
+      </SafeAreaView>
+      
+    );
+    return ui;
+  
+    function signInProcess() {
+      var jsRequestObject = {mobile: mobile, password: password};
+      var jsonRequestText = JSON.stringify(jsRequestObject);
+  
+      var formData = new FormData();
+      formData.append('jsonRequestText', jsonRequestText);
+  
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+          var jsonResponseText = request.responseText;
+          var jsResponseObject = JSON.parse(jsonResponseText);
+  
+          if (jsResponseObject.msg == 'Error') {
+            Alert.alert('Message', 'Invalid Entry');
+          } else {
+            var userObject = jsResponseObject.user;
+            Alert.alert('Message', 'Hello ' + userObject.name);
+            AsyncStorage.setItem('user', JSON.stringify(userObject));
+          }
+        }
+      };
+      request.open('POST', 'http://10.0.2.2/react_chat/signIn.php', true);
+      request.send(formData);
+    }
+  }
