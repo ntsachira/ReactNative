@@ -1,23 +1,37 @@
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {SafeAreaView, Text, Image, FlatList, View, TextInput, TouchableOpacity, Alert, StyleSheet } from "react-native";
+import {
+  SafeAreaView, 
+  Text, 
+  Image, 
+  FlatList, 
+  View, 
+  TextInput, 
+  TouchableOpacity, 
+  Alert, 
+  StyleSheet 
+} from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 
-export function Chat({navigation}) {
+export function Chat({route,navigation}) {
 
     const [chatText,setChatText] = useState("");
   
-    const [userName, setUserName] = useState(null);
+    const [id, setId] = useState(null);
   
     async function m() {
       var userJsonText = await AsyncStorage.getItem('user');
       var userJSObject = JSON.parse(userJsonText);
-      setUserName(userJSObject.name);
+      setId(userJSObject.id);
     }  
     m();
   
     const [chatHistory, setChatHistory] = useState([]);
   
+    var form = new FormData();
+    form.append("id1",id);
+    form.append("id2",route.params.id);
+
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
       if (request.readyState == 4 && request.status == 200) {
@@ -26,17 +40,17 @@ export function Chat({navigation}) {
         setChatHistory(responseArray);
       }
     };
-    request.open('GET', 'http://10.0.2.2/react_chat/load_chat.php', true);
-    request.send();
+    request.open('POST', 'http://10.0.2.2/react_chat/load_chat.php', true);
+    request.send(form);
   
     const ui = (
       <SafeAreaView style={styles.chat}>
         <Text style={styles.chatText1}>Chat</Text>
         <Image
-          source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}
+          source={{uri: "http://10.0.2.2/react_chat/"+route.params.img }}
           style={styles.itemImage}
         />
-        <Text style={styles.chatText2}>{userName}</Text>
+        <Text style={styles.chatText2}>{route.params.name}</Text>
   
         <FlatList
           data={chatHistory}
@@ -64,7 +78,7 @@ export function Chat({navigation}) {
      
       var requestObject ={
         "from_user_id":fromUserObject.id,
-        "to_user_id":3 ,
+        "to_user_id":route.params.id ,
         "message":chatText,
       };
   
@@ -120,6 +134,11 @@ export function Chat({navigation}) {
   }
 
   const styles = StyleSheet.create({
+    itemImage: {
+      height: 70,
+      width: 70,
+      borderRadius: 50,
+    },
     chatSendView: {
         flexDirection: 'row',
         width: '100%',
@@ -172,6 +191,7 @@ export function Chat({navigation}) {
         color: 'black',
         borderRadius: 20,
         marginHorizontal: 10,
+        marginBottom: 5,
       },
       chatText2: {
         fontSize: 20,

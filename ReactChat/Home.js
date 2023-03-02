@@ -7,7 +7,9 @@ import {
     TextInput, 
     FlatList, 
     Image,
-    StyleSheet
+    StyleSheet,
+    Alert,
+    Pressable
  } from "react-native";
  import Icon from 'react-native-vector-icons/FontAwesome'; 
 
@@ -49,39 +51,54 @@ export function Home({navigation}) {
   
     loadFriendList();
     return ui;
-  }
-  
-  function itemUI({item}) {
-    const ui = (
-      <View style={styles.item}>
-        <Image source={{uri: `${item.pic}`}} style={styles.itemImage} />
-        <View style={styles.itemView1}>
-          <Text style={styles.itemText1}>{item.name}</Text>
-          <Text style={styles.itemText2}>{item.msg}</Text>
-        </View>
-        <View style={styles.itemView2}>
-          <Text style={styles.itemText3}>{item.time}</Text>
-          <View style={styles.itemShape1}>
-            <Text style={styles.itemText4}>{item.count}</Text>
+
+    function itemUI({item}) {
+      const ui = (
+        <Pressable style={styles.item} onPress={m}>
+          <Image source={{uri:"http://10.0.2.2/react_chat/"+item.pic}} style={styles.itemImage} />
+          <View style={styles.itemView1}>
+            <Text style={styles.itemText1}>{item.name}</Text>
+            <Text style={styles.itemText2}>{item.msg}</Text>
           </View>
-        </View>
-      </View>
-    );
+          <View style={styles.itemView2}>
+            <Text style={styles.itemText3}>{item.time}</Text>
+            <View style={styles.itemShape1}>
+              <Text style={styles.itemText4}>{item.count}</Text>
+            </View>
+          </View>
+        </Pressable>
+      );
+    
+      return ui;  
+      
+      function m(){
+        //Alert.alert("Message",item.name);
   
-    return ui;
-  }
+        const obj = {"name":item.name,"id":item.id,"img":item.url};
+  
+        navigation.navigate("Chat",obj);
+      }
+    }
+    
+  }  
+  
 
   const styles = StyleSheet.create({
     itemView1: {
-        padding: 15,
+        paddingLeft:10 ,
         width: '60%',
         rowGap: 5,
+        justifyContent: 'center',
+       
       },
       itemView2: {
         alignItems: 'flex-end',
-        padding: 15,
+        padding: 0,
         rowGap: 5,
-        marginLeft: -5,
+        marginLeft: 0,
+        width:"21%",
+        justifyContent: 'center',
+        
       },
       itemShape1: {
         height: 24,
@@ -111,12 +128,12 @@ export function Home({navigation}) {
       },
       item: {
         flexDirection: 'row',
-        paddingVertical: 15,
+        paddingVertical: 10,
         paddingHorizontal: 10,
       },
       itemImage: {
-        height: 80,
-        width: 80,
+        height: 70,
+        width: 70,
         borderRadius: 50,
       },
     home: {

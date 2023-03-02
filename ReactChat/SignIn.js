@@ -15,10 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
-export function SignIn({navigation}) {
-
-  
-
+export function SignIn({navigation}) {  
     const [mobile, setMobile] = useState(null);
     const [password, setPassword] = useState(null);
   
@@ -54,7 +51,7 @@ export function SignIn({navigation}) {
         <Pressable style={styles.signInButton1} onPress={signInProcess}>
           <Text style={styles.signInButtonText1}>Sign In</Text>
         </Pressable>
-        <Pressable style={styles.signInButton2}>
+        <Pressable style={styles.signInButton2} onpress>
           <Text style={styles.signInButtonText1}>New user? Sign Up</Text>
         </Pressable> 
        
