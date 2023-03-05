@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   SafeAreaView, 
@@ -19,17 +19,22 @@ export function Chat({route,navigation}) {
   
     const [id, setId] = useState(null);
   
-    async function m() {
-      var userJsonText = await AsyncStorage.getItem('user');
-      var userJSObject = JSON.parse(userJsonText);
-      setId(userJSObject.id);
-    }  
-    m();
+    // async function m() {
+    //   var userJsonText = await AsyncStorage.getItem('user');
+    //   var userJSObject = JSON.parse(userJsonText);
+    //   setId(userJSObject.id);
+    // }  
+    // m();
   
     const [chatHistory, setChatHistory] = useState([]);
-  
-    var form = new FormData();
-    form.append("id1",id);
+    //Alert.alert("Message","Hello");
+    async function sendRequest(){
+    const form = new FormData();
+      //get data fro async store
+    var userJsonText = await AsyncStorage.getItem('user');
+    var userJSObject = JSON.parse(userJsonText);
+
+    form.append("id1",userJSObject.id);
     form.append("id2",route.params.id);
 
     var request = new XMLHttpRequest();
@@ -42,6 +47,34 @@ export function Chat({route,navigation}) {
     };
     request.open('POST', 'http://10.0.2.2/react_chat/load_chat.php', true);
     request.send(form);
+  } 
+
+  //called onPress
+  async function saveChat(){
+  
+    var userJsonText = await AsyncStorage.getItem('user');
+
+    var fromUserObject = JSON.parse(userJsonText);
+   
+    var requestObject ={
+      "from_user_id":fromUserObject.id,
+      "to_user_id":route.params.id ,
+      "message":chatText,
+    };
+
+    var formData = new FormData();
+  formData.append("requestJSON",JSON.stringify(requestObject));
+
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (request.readyState == 4 && request.status == 200) {
+      //Alert.alert("Message",request.responseText);
+    }
+  };
+  request.open('POST', 'http://10.0.2.2/react_chat/save_chat.php', true);
+  request.send(formData); 
+ 
+  }  
   
     const ui = (
       <SafeAreaView style={styles.chat}>
@@ -70,48 +103,17 @@ export function Chat({route,navigation}) {
       </SafeAreaView>
     ); 
    
-    async function saveChat(){
-  
-      var userJsonText = await AsyncStorage.getItem('user');
-  
-      var fromUserObject = JSON.parse(userJsonText);
-     
-      var requestObject ={
-        "from_user_id":fromUserObject.id,
-        "to_user_id":route.params.id ,
-        "message":chatText,
-      };
-  
-      var formData = new FormData();
-    formData.append("requestJSON",JSON.stringify(requestObject));
-  
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-      if (request.readyState == 4 && request.status == 200) {
-        Alert.alert("Message",request.responseText);
-      }
-    };
-    request.open('POST', 'http://10.0.2.2/react_chat/save_chat.php', true);
-    request.send(formData);
-    } 
+  //calling sendRequest function looking for new chats in the database
+   function start(){
+    setInterval(sendRequest,2000);
+   }  
+
+   useEffect(start,[]);
     
     return ui;
   }
   
-  const styles3 = StyleSheet.create({
-    chatButton1:{
-      height:50,
-      width:50,    
-      marginLeft:5,
-      alignItems:"center",
-      justifyContent:"center",
-      backgroundColor:"white",
-      borderRadius:25
-    },
-    chatIcon1:{
-      fontSize:30,
-    }
-  });
+ 
   
   function chatItem({item}) {
     const ui = (
@@ -132,6 +134,21 @@ export function Chat({route,navigation}) {
     );
     return ui;
   }
+
+  const styles3 = StyleSheet.create({
+    chatButton1:{
+      height:50,
+      width:50,    
+      marginLeft:5,
+      alignItems:"center",
+      justifyContent:"center",
+      backgroundColor:"white",
+      borderRadius:25
+    },
+    chatIcon1:{
+      fontSize:30,
+    }
+  });
 
   const styles = StyleSheet.create({
     itemImage: {
