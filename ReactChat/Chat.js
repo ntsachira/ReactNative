@@ -37,6 +37,7 @@ export function Chat({route,navigation}) {
     form.append("id1",userJSObject.id);
     form.append("id2",route.params.id);
 
+    
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
       if (request.readyState == 4 && request.status == 200) {

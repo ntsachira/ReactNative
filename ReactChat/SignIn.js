@@ -17,8 +17,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export function SignIn({navigation}) {  
     const [mobile, setMobile] = useState(null);
-    const [password, setPassword] = useState(null);
-  
+    const [password, setPassword] = useState(null);    
+ 
     const ui = (
       <SafeAreaView style={styles.signInMain}>
         <Image
@@ -35,6 +35,7 @@ export function SignIn({navigation}) {
             maxLength={10}
             placeholder={'Enter your mobile'}
             onChangeText={setMobile}
+            
           />
         </View>
   
