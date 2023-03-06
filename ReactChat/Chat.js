@@ -182,7 +182,7 @@ export function Chat({route,navigation}) {
         fontSize: 10,
       },
       chatIconSeen: {
-        color: 'red',
+        color: 'green',
       },
       chatList: {
         width: '100%',
