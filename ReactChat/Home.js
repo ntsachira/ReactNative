@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage"; 
 import { 
     SafeAreaView, 
@@ -9,18 +9,22 @@ import {
     Image,
     StyleSheet,
     Alert,
-    Pressable
+    Pressable,
+    TouchableOpacity
  } from "react-native";
  import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 
-export function Home({navigation}) {
+export function Home({navigation}) { 
+
     const [items, setItems] = useState([]);
   
-    async function loadFriendList() {
+    async function loadFriendList(text) {
       const userJSONText = await AsyncStorage.getItem('user');
       const formData = new FormData();
       formData.append('userJSONText', userJSONText);
+      formData.append("text",text);
+      //sAlert.alert(searchText);
   
       var request = new XMLHttpRequest();
       request.onreadystatechange = function () {
@@ -31,25 +35,35 @@ export function Home({navigation}) {
       request.open('POST', 'http://10.0.2.2/react_chat/load_users.php', true);
       request.send(formData);
     }
+
+   function loadSearchText(text){   
+   loadFriendList(text);
+   }
+
+   function start (){
+    loadFriendList("");
+  }
+  useEffect(start,[]);
   
     const ui = (
       <SafeAreaView style={styles.home}>
         <Text style={styles.homeText1}>Message</Text>
         <View style={styles.homeView1}>
-          <TextInput style={styles.homeInput1} autoCorrect={false} />
-          <Icon
-            name="search"
-            size={30}
-            color="#303030"
-            style={styles.homeImage1}
-          />
+          <TextInput 
+          style={styles.homeInput1} 
+          autoCorrect={false}
+          onChangeText={(text)=>{loadFriendList(text)}}
+          placeholder="Search chat list"
+          />    
+          
         </View>
   
         <FlatList data={items} renderItem={itemUI} />
       </SafeAreaView>
     );
   
-    loadFriendList();
+    
+    
     return ui;
 
     function itemUI({item}) {
