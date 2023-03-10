@@ -46,7 +46,7 @@ export function Chat({route,navigation}) {
         setChatHistory(responseArray);
       }
     };
-    request.open('POST', 'http://10.0.2.2/react_chat/load_chat.php', true);
+    request.open('POST', 'http://192.168.1.189/react_chat/load_chat.php', true);
     request.send(form);
   } 
 
@@ -72,7 +72,7 @@ export function Chat({route,navigation}) {
       //Alert.alert("Message",request.responseText);
     }
   };
-  request.open('POST', 'http://10.0.2.2/react_chat/save_chat.php', true);
+  request.open('POST', 'http://192.168.1.189/react_chat/save_chat.php', true);
   request.send(formData); 
  
   }  
@@ -81,7 +81,7 @@ export function Chat({route,navigation}) {
       <SafeAreaView style={styles.chat}>
         <Text style={styles.chatText1}>Chat</Text>
         <Image
-          source={{uri: "http://10.0.2.2/react_chat/"+route.params.img }}
+          source={{uri: "http://192.168.1.189/react_chat/"+route.params.img }}
           style={styles.itemImage}
         />
         <Text style={styles.chatText2}>{route.params.name}</Text>
@@ -212,16 +212,16 @@ export function Chat({route,navigation}) {
         marginBottom: 5,
       },
       chatText2: {
-        fontSize: 20,
-        fontWeight: 'bold',
+        fontSize: 20,        
         color: '#000000',
         paddingVertical: 15,
+        fontFamily: 'RighteousRegular',
       },
       chatText1: {
         fontSize: 28,
         paddingVertical: 15,
         color: '#0461c3',
-        fontFamily: 'RighteousRegular',
+        fontFamily: 'RighteousRegular',        
       },
       chat: {
         flex: 1,

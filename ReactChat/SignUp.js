@@ -84,7 +84,7 @@ export function SignUp({navigation}) {
        setCountries(countryArray);
     }
     };
-    request.open("GET","http://10.0.2.2/react_chat/loadCountries.php",true);
+    request.open("GET","http://192.168.1.192/react_chat/loadCountries.php",true);
     request.send();
   }
 

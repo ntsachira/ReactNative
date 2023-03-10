@@ -9,7 +9,8 @@ import {
     Pressable, 
     Text, 
     Alert,  
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 
@@ -49,12 +50,12 @@ export function SignIn({navigation}) {
           />
         </View>
   
-        <Pressable style={styles.signInButton1} onPress={signInProcess}>
+        <TouchableOpacity style={styles.signInButton1} onPress={signInProcess}>
           <Text style={styles.signInButtonText1}>Sign In</Text>
-        </Pressable>
-        <Pressable style={styles.signInButton2} onpress>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.signInButton2} onPress={()=>{navigation.navigate("Sign Up")}}>
           <Text style={styles.signInButtonText1}>New user? Sign Up</Text>
-        </Pressable> 
+        </TouchableOpacity> 
        
         
       </SafeAreaView>
@@ -87,7 +88,7 @@ export function SignIn({navigation}) {
           }
         }
       };
-      request.open('POST', 'http://10.0.2.2/react_chat/signIn.php', true);
+      request.open('POST', 'http://192.168.1.189/react_chat/signIn.php', true);
       request.send(formData);
     }
   }
@@ -132,12 +133,13 @@ export function SignIn({navigation}) {
         fontSize: 18,
         width: '80%',
         paddingStart: 40,
-        borderRadius: 10,
+        borderRadius: 25,
       },
       signInImage: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        borderColor:"#5271FF",        
       },
       signInMain: {
         flex: 1,

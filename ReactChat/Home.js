@@ -21,6 +21,7 @@ export function Home({navigation}) {
   
     async function loadFriendList(text) {
       const userJSONText = await AsyncStorage.getItem('user');
+     
       const formData = new FormData();
       formData.append('userJSONText', userJSONText);
       formData.append("text",text);
@@ -32,7 +33,7 @@ export function Home({navigation}) {
           setItems(JSON.parse(request.responseText));
         }
       };
-      request.open('POST', 'http://10.0.2.2/react_chat/load_users.php', true);
+      request.open('POST', 'http://192.168.1.189/react_chat/load_users.php', true);
       request.send(formData);
     }
 
@@ -69,7 +70,7 @@ export function Home({navigation}) {
     function itemUI({item}) {
       const ui = (
         <Pressable style={styles.item} onPress={m}>
-          <Image source={{uri:"http://10.0.2.2/react_chat/"+item.pic}} style={styles.itemImage} />
+          <Image source={{uri:"http://192.168.1.189/react_chat/"+item.pic}} style={styles.itemImage} />
           <View style={styles.itemView1}>
             <Text style={styles.itemText1}>{item.name}</Text>
             <Text style={styles.itemText2}>{item.msg}</Text>

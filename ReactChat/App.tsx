@@ -1,4 +1,5 @@
 import React from 'react';
+import { Splash } from './Splash';
 import {SignIn} from './SignIn';
 import {SignUp} from './SignUp';
 import {Home} from './Home';
@@ -10,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createNativeStackNavigator();
 
 function App(){
-
++
   
   async function checkUser() {
     
@@ -22,7 +23,8 @@ function App(){
 
   const ui = (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName={checkUser!=null?"Home":"Sign In"}>
+    <Stack.Navigator initialRouteName={"Splash"}>
+      <Stack.Screen name='Splash' component={Splash} />
       <Stack.Screen name="Sign In" component={SignIn} />
       <Stack.Screen name="Sign Up" component={SignUp}/>
       <Stack.Screen name="Home" component={Home}/>
