@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {
   Image,
   SafeAreaView, 
@@ -6,9 +6,21 @@ import {
   Text,
   } 
 from 'react-native';
+import { SignUp } from "./SignUp";
 
-export function Splash(){
-  const ui = (
+
+export function Splash({navigation}){
+  function splash(){
+    navigation.navigate("SignIn");
+  }
+
+  function start(){
+    setTimeout(splash,3000);
+  }
+
+  //useEffect(start,[]);
+
+  const ui = ( 
     <SafeAreaView style={styles.main}>
       <Image source={require("./images/logo1.png")} style={styles.image1}/>
       <Text style={styles.text1}>Anychat</Text>

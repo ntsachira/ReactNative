@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from "react";
 import {
+  Alert,
   Image,
   SafeAreaView, 
   StyleSheet, 
@@ -12,7 +13,40 @@ import {
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
-export function SignIn(){
+export function SignIn({navigation}){
+  const [mobile,setMobile] = useState("");
+  const [password,setPassword] = useState("");
+  const [error,setError] = useState("");
+  
+  function loadSignIn(){
+    var jsRequestObject ={"mobile":mobile,"password":password};
+    
+    const form = new FormData();
+    form.append("requestJSON",JSON.stringify(jsRequestObject));
+
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function(){
+    if (request.readyState == 4 && request.status == 200) {
+          var jsonResponseText = request.responseText;          
+          var jsResponseObject = JSON.parse(jsonResponseText);  
+
+          if(jsResponseObject.msg=="Error"){
+            setError("Invalid username or password");
+          }else{
+            Alert.alert("Sign In success as ->",jsResponseObject.user.username);
+            const navObject = {
+              'user':jsResponseObject.user,
+            };
+            navigation.navigate("Home",navObject);
+          }
+      } 
+  };
+  request.open("POST","http://192.168.1.189/anychat/signIn.php",true);
+  request.send(form);
+    
+    
+  }
+  
   const ui = (
     <SafeAreaView style={styles.main}>
       <Image source={require("./images/logo1Large.png")} style={styles.image1}/>
@@ -22,34 +56,52 @@ export function SignIn(){
       <View style={styles.view2}>
         <View style={styles.view3}>
           <View style={styles.view4}>
-            <TouchableOpacity style={styles.button1} activeOpacity={0.7}>
+            <View style={styles.button1}  >
               <Text style={styles.text1}>Sign In</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button2} activeOpacity={0.7}>
+            </View>
+            <TouchableOpacity style={styles.button2} activeOpacity={0.7} onPress={()=>{navigation.navigate("SignUp")}}>
               <Text style={styles.text2}>Sign Up</Text>
             </TouchableOpacity>
           </View>
+          {/* Invalid username or password Error Message */}
+          <Text style={{color:"red", fontSize:14,bottom:-10}}>{error}</Text>
+
           <View style={styles.view5}>
             <View style={styles.inputView}>
               <View style={styles.iconBack}>
-                <Icon name="mobile" color="white" size={25}/>
+                <Icon name="mobile" color="white" size={28}/>
               </View>
-              <TextInput style={styles.input1} placeholder="Mobile number"/>
+              <TextInput 
+                style={error==""?styles.input1:styles.input1Warn} 
+                placeholder="Mobile number" 
+                placeholderTextColor={"#A8A7A7"} 
+                onChangeText={setMobile}    
+                autoCorrect={false} 
+                inputMode="numeric" 
+                                                        
+              />
             </View>
             <View style={styles.inputView}>
               <View style={styles.iconBack}>
                 <Icon name="lock" color="white" size={25}/>
               </View>
-              <TextInput style={styles.input1} placeholder="Password"/>
+              <TextInput 
+                style={error==""?styles.input1:styles.input1Warn} 
+                placeholder="Password" 
+                placeholderTextColor={"#A8A7A7"} 
+                onChangeText={setPassword}
+                autoCorrect={false} 
+                secureTextEntry={true}              
+              />
               <TouchableOpacity style={styles.button5}>
-                <Icon name="eye" size={20} />
+                <Icon name="eye" size={20} color="gray"/>
               </TouchableOpacity>              
             </View>
             <TouchableOpacity style={styles.button4} activeOpacity={0.7}>
-              <Text>Forgot password?</Text>
+              <Text style={styles.text4}>Forgot password?</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.button3} activeOpacity={0.7}>
+          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={loadSignIn}>
               <Text style={styles.text3}>Sign In</Text>
           </TouchableOpacity>
         </View>
@@ -60,6 +112,9 @@ export function SignIn(){
 }
 
 const styles = StyleSheet.create({
+  text4:{
+    color:"#5271FF"
+  },
   button5:{
     position:"absolute",
     end:4,
@@ -68,6 +123,16 @@ const styles = StyleSheet.create({
     width:120,    
     alignItems:"center",
     alignSelf:"flex-end"
+  },
+  input1Warn:{
+    height:40,
+    borderBottomWidth:1,
+    borderColor:"#5271FF",
+    width:"90%",
+    paddingLeft:40,
+    justifyContent:"flex-end",
+    fontSize:15,
+    zIndex:-1
   },
   input1:{
     height:40,
@@ -108,7 +173,8 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     height:48,
     borderRadius:24,
-    marginBottom:"25%"
+    marginBottom:20,
+    marginTop:100,
   },
   view5:{
     width:"85%",
@@ -155,7 +221,8 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     borderRadius:34,    
     backgroundColor:"white", 
-    rowGap:70,   
+    rowGap:20,  
+    borderColor:"#E4E4E4" 
   },
   view2:{    
     width:"100%",
