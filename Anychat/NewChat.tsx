@@ -13,7 +13,7 @@ import {
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 
-export function NewChat(){
+export function NewChat({navigation}){
   const items = [1,2,3,4,5,6,7];
   const ui = (
     <SafeAreaView style={styles.main}>      
@@ -30,25 +30,28 @@ export function NewChat(){
     </SafeAreaView>
   );
   return ui;
+
+  function chatUI({item}){
+    const ui = (
+      
+      <TouchableOpacity style={styles.view9} activeOpacity={0.5} onPress={()=>{navigation.navigate("Chat")}}>
+          <View style={styles.view6}>
+             <View style={styles.image1}><Icon name="user" color="white" size={40}/></View>
+          </View>
+          <View style={styles.view7}>
+            <Text style={styles.text1}>Sasindu Malinda</Text>
+            <Text style={styles.text2}>Tap to chat</Text>
+          </View>
+          <View style={styles.view8}>
+            <Text style={styles.text4}>Sri Lanka</Text>                          
+          </View>
+      </TouchableOpacity>
+    );
+    return ui;
+  }
 }
 
-function chatUI({item}){
-  const ui = (
-    <View style={styles.view9}>
-        <View style={styles.view6}>
-           <View style={styles.image1}><Icon name="user" color="white" size={40}/></View>
-        </View>
-        <View style={styles.view7}>
-          <Text style={styles.text1}>Sasindu Malinda</Text>
-          <Text style={styles.text2}>Tap to chat</Text>
-        </View>
-        <View style={styles.view8}>
-          <Text style={styles.text4}>Sri Lanka</Text>                          
-        </View>
-    </View>
-  );
-  return ui;
-}
+
 
 const styles = StyleSheet.create({  
   text4:{
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor:"#5271FF"
   },
   view9:{
-    borderWidth:1,
+    borderBottomWidth:1,
     borderColor:"#E4E4E4",
     width:"100%", 
     flexDirection:"row",

@@ -8,62 +8,104 @@ import {
   Touchable,
   TouchableOpacity,
   View,
-  FlatList
+  FlatList,
+  Alert
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
   export function Chat({navigation,route}){
+    const [chatText,setChatText] = useState("");
+    const [chatHistory, setChatHistory] = useState([]);
 
-    const items = [
-      {
-        'side':'right',
-        'message':'Hello!',
-        'status':'1',
-      },
-      {
-        'side':'left',
-        'message':'Hi, how are you!',
-        'status':null,
-      },
-      {
-        'side':'right',
-        'message':'Hi, how are you!',
-        'status':'2',
-      },
+   
+    async function loadChat(){
 
-    ];
+      var userJsonText = await AsyncStorage.getItem('user');
+      var userJSObject = JSON.parse(userJsonText);
+
+      const form = new FormData();
+      form.append("id1",userJSObject.user.id);
+      form.append("id2",route.params.id);
+      
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function () {
+      if (request.readyState == 4 && request.status == 200) {
+        var responseText = request.responseText;
+        var responseArray = JSON.parse(responseText);
+        setChatHistory(responseArray);
+        //Alert.alert("Message",request.responseText);
+      }
+    };
+    request.open('POST', 'http://192.168.1.189/anychat/load_chat.php', true);
+    request.send(form);  
+     
+    }
+
+    async function saveChat(){
+  
+      var userJsonText = await AsyncStorage.getItem('user');
+  
+      var fromUserObject = JSON.parse(userJsonText);
+     
+      var requestObject ={
+        "user_from_id":fromUserObject.user.id,
+        "user_to_id":route.params.id ,
+        "message":chatText,
+      };
+  
+      var formData = new FormData();
+    formData.append("requestJSON",JSON.stringify(requestObject));
+  
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+      if (request.readyState == 4 && request.status == 200) {
+        Alert.alert("Message",request.responseText);
+      }
+    };
+    request.open('POST', 'http://192.168.1.189/anychat/saveChat.php', true);
+    request.send(formData); 
+   
+    }  
   
   const ui = (
     <SafeAreaView style={styles.main}>      
-      <View style={styles.view1}>
-        <View style={styles.menuView}>
-          <View style={styles.view5}><Icon name="ios-color-filter" color="#707070" size={35}/></View>
-        </View>
+      <View style={styles.view1}>        
         <View style={styles.nameView}><Text style={styles.text5}>{route.params.name}</Text></View>
         <View style={styles.profileView}>
-          <View style={styles.view5}><Icon name="person" color="#707070" size={40}/></View>
+            <View style={styles.view5}>
+              <Image source={{uri:"http://192.168.1.189/anychat/avatars/"+route.params.img+".png"}} style={styles.avatarBack} />
+            </View>
         </View>
       </View>
       <View style={styles.view2}>
         <View style={styles.view3}>
-          <FlatList data={items} renderItem={messageList}/>                     
+          <FlatList data={chatHistory} renderItem={messageList}/>                     
         </View>
       </View>
       <View style={styles.view6}>
           <TextInput 
           style={styles.input1} 
-          placeholder="Search chat list" 
+          placeholder="Type your message here" 
           placeholderTextColor={"#A8A7A7"}
           autoCorrect={false}
-          multiline          
+          multiline 
+          onChangeText={setChatText}
           />
-          <TouchableOpacity style={styles.button3} activeOpacity={0.7}>
+          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={saveChat}>
               <Icon name="send" color="white" size={25} />
           </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
+
+  function start(){
+    setInterval(loadChat,2000);
+  }
+  useEffect(start,[]);
+
   return ui;
 } 
 
@@ -75,8 +117,8 @@ function messageList({item}){
                 <Text style={styles.chatText1}>{item.message}</Text>
               </View>
               <View style={styles.messageView4}>
-                <Text style={styles.chatText2}>6.45 pm</Text>
-                {item.side=='right'?<Icon name="ios-checkmark-circle-outline" color={item.status=='1'?"green":"gray"} size={20}/>:null}
+                <Text style={styles.chatText2}>{item.time}</Text>
+                {item.side=='right'?<Icon name="ios-checkmark-circle-outline" color={item.status=='seen'?"#5271FF":"gray"} size={20}/>:null}
               </View>
             </View>
           </View> 
@@ -85,6 +127,14 @@ function messageList({item}){
 }
 
 const styles = StyleSheet.create({ 
+  avatarBack:{
+    height:60,
+    width:60,
+    alignItems:"center",
+    justifyContent:"center",
+    backgroundColor:"#F3F6FF",
+    borderRadius:35,
+  },
   chatText2:{
     color:"#707070",
     fontSize:14
@@ -146,8 +196,8 @@ const styles = StyleSheet.create({
     fontSize:16,     
   },
   text5:{
-    fontSize:20,
-    color:"black",
+    fontSize:22,
+    color:"white",
     fontWeight:"bold",
   }, 
   view6:{    
@@ -159,33 +209,27 @@ const styles = StyleSheet.create({
      bottom:3,
   },
   view5:{
-    height:58,
-    width:58,
+    height:65,
+    width:65,
     backgroundColor:"white",
-    borderRadius:29,
+    borderRadius:33,
     alignItems:"center",
-    justifyContent:"center", 
-    borderColor:"#E4E4E4",   
-    borderWidth:1,
+    justifyContent:"center",     
+    
   },
   profileView:{
     height:70,
-    width:"19%",    
+    width:"28%",    
     alignItems:"center",
     justifyContent:"center",        
   },
   nameView:{
     height:50,
-    width:"55%",    
-    alignItems:"center",
+    width:"75%",       
     justifyContent:"center",  
+    paddingHorizontal:15
   },
-  menuView:{
-    height:70,
-    width:"19%",     
-    alignItems:"center",
-    justifyContent:"center",
-  },
+  
   button3:{
     width:55,
     backgroundColor:"#5271FF",
@@ -201,7 +245,7 @@ const styles = StyleSheet.create({
     width:"100%",       
     borderRadius:34,    
     backgroundColor:"white", 
-    height:670,
+    height:680,
     paddingHorizontal:10,
     paddingTop:15,
   },
@@ -214,17 +258,18 @@ const styles = StyleSheet.create({
   view1:{    
     width:"100%",
     alignItems:"center",
-    justifyContent:"center",
+    
     height:90,
     flexDirection:"row", 
-    borderRadius:34,    
-    backgroundColor:"white",
+    borderBottomLeftRadius:34,    
+    backgroundColor:"#5271FF",
+    borderBottomRightRadius:34
   },
   main:{
     flex:1,    
     alignItems:"center",
     backgroundColor:"#EAEAF5", 
-    rowGap:10   
+    rowGap:5   
   },
  
 });

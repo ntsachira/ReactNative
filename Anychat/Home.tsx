@@ -49,7 +49,11 @@ export function Home({navigation}){
   const ui = (
     <SafeAreaView style={styles.main}>      
       <View style={styles.view1}>
-        <TouchableOpacity style={styles.menuView} activeOpacity={0.5}>
+        <TouchableOpacity 
+        style={styles.menuView} 
+        activeOpacity={0.5}
+        onPress={()=>{navigation.navigate("Profile")}}
+        >
           <View style={styles.view5}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+dp+".png"}} style={styles.avatarBack}/></View>
         </TouchableOpacity>
         <TextInput style={styles.input1} placeholder="Search chat list" placeholderTextColor={"gray"} onChangeText={(text)=>{loadUsers(text)}}/>
@@ -62,7 +66,7 @@ export function Home({navigation}){
           <View style={styles.view4}>
             <FlatList data={items} renderItem={chatUI}/>
           </View>          
-          <TouchableOpacity style={styles.button3} activeOpacity={0.7}>
+          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={()=>{navigation.navigate("NewChat")}}>
               <Text style={styles.text3}>Start a new chat</Text>
           </TouchableOpacity>
         </View>
@@ -83,7 +87,7 @@ export function Home({navigation}){
           <View style={styles.view8}>
             <Text style={styles.text4}>{item.time}</Text>
             <View style={styles.view10}>
-              {item.status!='null'?<Icon name="checkcircleo" color={item.status!='seen'?"#707070":"#5271FF"} size={20}/>:null}
+              {item.status!="null"?<Icon name="checkcircleo" color={item.status!='seen'?"#707070":"#5271FF"} size={20}/>:null}
               <View style={styles.view11}>
                 <Text style={styles.text5}>{item.count}</Text>
               </View>
@@ -139,7 +143,7 @@ const styles = StyleSheet.create({
   },
   text2:{
     fontSize:16,
-    color:"black",
+    color:"gray",
   },
   text1:{
     fontSize:18,
@@ -156,13 +160,14 @@ const styles = StyleSheet.create({
   },
   view9:{
     borderBottomWidth:1,
-    borderColor:"#E4E4E4",
+    borderColor:"#C1CDFF",
     width:"100%", 
     flexDirection:"row",
     height:80,
     borderRadius:34,
     backgroundColor:"white",
-    borderLeftWidth:1
+    borderLeftWidth:1,
+    paddingRight:5,
   },
   view6:{    
     width:"20%",
@@ -207,6 +212,7 @@ const styles = StyleSheet.create({
     backgroundColor:"white",
     paddingLeft:20,
     fontSize:16,
+    zIndex:1,
   },
   menuView:{
     height:50,
