@@ -87,7 +87,7 @@ export function SignUp({navigation,route}){
           setnameErrorText(status.nameStatus);
           setCountryErrorText(status.countryStatus);
           if(status.countryStatus=="Success"){
-            navigation.navigate("ProfileImageSelect");
+            navigation.navigate("ProfileImageSelect",detail);
           }
       }
     };
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     width:"90%",
     paddingLeft:40,
     justifyContent:"flex-end",
-    fontSize:15,
+    fontSize:17,
     zIndex:-1
   },
   iconBack:{
@@ -301,10 +301,12 @@ const styles = StyleSheet.create({
   text1:{
     fontSize:18,    
     color:"white",
+    fontWeight:"bold",
   },
   text2:{
     fontSize:18,    
     color:"#5271FF",
+    fontWeight:"bold",
   },
   button2:{
     height:40,

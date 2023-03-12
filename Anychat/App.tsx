@@ -15,6 +15,7 @@ import { Profile } from "./Profile";
 import { ChangeName } from "./ChangeName";
 import { ChangePassword } from "./ChangePassword";
 import { SelectCountry } from "./SelectCountry";
+import { Icon } from "react-native-vector-icons/Icon";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,13 +28,13 @@ function App(){
           headerStyle:{
             backgroundColor:"#0000"
           },
-            headerTintColor: '#fff',
+            headerTintColor: '#5271FF',
             headerTransparent:true
         }}>
         <Stack.Screen name="Splash" component={Splash} options={{headerShown:false}} />
         <Stack.Screen name="SignIn" component={SignIn} options={{headerShown:false}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
-        <Stack.Screen name="ProfileImageSelect" component={ProfileImageSelect} />
+        <Stack.Screen name="ProfileImageSelect" component={ProfileImageSelect} options={{title:""}}/>
         <Stack.Screen name="Home" component={Home} options={{title:"AnyChat"}}/>
         <Stack.Screen name="SignOut" component={SignOut} />
         <Stack.Screen name="Chat" component={Chat} />
