@@ -13,7 +13,7 @@ import {
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 
-  export function Chat(){
+  export function Chat({navigation,route}){
 
     const items = [
       {
@@ -40,7 +40,7 @@ import Icon from 'react-native-vector-icons/dist/Ionicons';
         <View style={styles.menuView}>
           <View style={styles.view5}><Icon name="ios-color-filter" color="#707070" size={35}/></View>
         </View>
-        <View style={styles.nameView}><Text style={styles.text5}>Sahan Perera</Text></View>
+        <View style={styles.nameView}><Text style={styles.text5}>{route.params.name}</Text></View>
         <View style={styles.profileView}>
           <View style={styles.view5}><Icon name="person" color="#707070" size={40}/></View>
         </View>

@@ -52,7 +52,7 @@ function App(){
           }
           />
         <Stack.Screen name="SignOut" component={SignOut} />
-        <Stack.Screen name="Chat" component={Chat} />
+        <Stack.Screen name="Chat" component={Chat} options={{title:""}} />
         <Stack.Screen name="NewChat" component={NewChat} />
         <Stack.Screen name="FriendProfileView" component={FriendProfileView} />
         <Stack.Screen name="Profile" component={Profile} />

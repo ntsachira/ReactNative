@@ -41,7 +41,7 @@ export function SignIn({navigation}){
             const navObject = {
               'user':jsResponseObject.user,
             };
-            AsyncStorage.setItem(`user`,JSON.stringify(navObject));
+            AsyncStorage.setItem(`user`,jsonResponseText);
             navigation.navigate("Home",navObject);
           }
       } 
@@ -83,6 +83,7 @@ export function SignIn({navigation}){
                 onChangeText={setMobile}    
                 autoCorrect={false} 
                 inputMode="numeric" 
+                maxLength={10}
                                                         
               />
             </View>
@@ -140,7 +141,8 @@ const styles = StyleSheet.create({
     paddingLeft:40,
     justifyContent:"flex-end",
     fontSize:17,
-    zIndex:-1
+    zIndex:-1,
+    color:"black",
   },
   input1:{
     height:40,
@@ -150,7 +152,8 @@ const styles = StyleSheet.create({
     paddingLeft:40,
     justifyContent:"flex-end",
     fontSize:17,
-    zIndex:-1
+    zIndex:-1,
+    color:"black",
   },
   iconBack:{
     height:44,

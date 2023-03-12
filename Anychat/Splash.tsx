@@ -15,7 +15,7 @@ export function Splash({navigation}){
     
     const user = await AsyncStorage.getItem('user');  
     
-    const screen = user!=null?"Home":"SignIn";
+    const screen = user!=""?"Home":"SignIn";
     navigation.navigate(screen);
 
     return screen;

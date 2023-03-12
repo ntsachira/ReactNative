@@ -15,16 +15,19 @@ from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export function Home({navigation,route}){
+export function Home({navigation}){
   const [items, setItems] = useState([]);
- 
+ const [dp,setDp] = useState("avatar7");
 
   async function loadUsers(searchText){   
-    const userJSONText = await AsyncStorage.getItem('user');
-    
+    var userJSONText = await AsyncStorage.getItem('user');
+    var text =JSON.parse(userJSONText);
+   
+    setDp(text.user.profile_url);
     const form= new FormData();
     form.append("userJson",userJSONText);
     form.append("searchText",searchText);
+    form.append("users","old");
       var request = new XMLHttpRequest();
       request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
@@ -47,10 +50,10 @@ export function Home({navigation,route}){
     <SafeAreaView style={styles.main}>      
       <View style={styles.view1}>
         <TouchableOpacity style={styles.menuView} activeOpacity={0.5}>
-          <View style={styles.view5}><Image source={require("./images/avatars/avatar5.png")} style={styles.avatarBack}/></View>
+          <View style={styles.view5}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+dp+".png"}} style={styles.avatarBack}/></View>
         </TouchableOpacity>
-        <TextInput style={styles.input1} placeholder="Search chat list" placeholderTextColor={"gray"}/>
-        <TouchableOpacity style={styles.profileView} activeOpacity={0.5}>
+        <TextInput style={styles.input1} placeholder="Search chat list" placeholderTextColor={"gray"} onChangeText={(text)=>{loadUsers(text)}}/>
+        <TouchableOpacity style={styles.profileView} activeOpacity={0.5} onPress={()=>{navigation.navigate("SignIn")}}>
           <View style={styles.view5}><Image source={require("./images/avatars/logOut.png")} style={styles.avatarBack}/></View>
         </TouchableOpacity>
       </View>
