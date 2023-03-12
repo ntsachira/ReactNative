@@ -327,10 +327,11 @@ const styles = StyleSheet.create({
   view4:{
     flexDirection:"row",
     width:"85%",
-    height:40,
+    height:42,
     borderWidth:1,
     borderColor:"#EAEAF5",
-    borderRadius:20,  
+    borderRadius:21,  
+    alignItems:"center", 
     
   },
   view3:{    

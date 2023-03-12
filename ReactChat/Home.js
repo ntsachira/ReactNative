@@ -15,7 +15,7 @@ import {
  import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 
-export function Home({navigation}) { 
+export function Home({navigation,route}) { 
 
     const [items, setItems] = useState([]);
   

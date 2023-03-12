@@ -8,23 +8,51 @@ import {
   Touchable,
   TouchableOpacity,
   View,
-  FlatList
+  FlatList,
+  Alert
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export function Home(){
-  const items = [1,2,3,4,5,6,7,8,9,10];
+export function Home({navigation,route}){
+  const [items, setItems] = useState([]);
+ 
+
+  async function loadUsers(searchText){   
+    const userJSONText = await AsyncStorage.getItem('user');
+    
+    const form= new FormData();
+    form.append("userJson",userJSONText);
+    form.append("searchText",searchText);
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+          setItems(JSON.parse(request.responseText));
+         //Alert.alert("Message",request.responseText);
+        }
+      };
+      request.open('POST', 'http://192.168.1.189/anychat/load_users.php', true);
+      request.send(form); 
+
+  }
+
+  function start(){
+    loadUsers("");
+  }
+
+  useEffect(start,[]);
+
   const ui = (
     <SafeAreaView style={styles.main}>      
       <View style={styles.view1}>
-        <View style={styles.menuView}>
-          <View style={styles.view5}><Icon name="filter" color="#707070" size={35}/></View>
-        </View>
-        <TextInput style={styles.input1} placeholder="Search chat list" placeholderTextColor={"#A8A7A7"}/>
-        <View style={styles.profileView}>
-          <View style={styles.view5}><Icon name="user" color="#707070" size={40}/></View>
-        </View>
+        <TouchableOpacity style={styles.menuView} activeOpacity={0.5}>
+          <View style={styles.view5}><Image source={require("./images/avatars/avatar5.png")} style={styles.avatarBack}/></View>
+        </TouchableOpacity>
+        <TextInput style={styles.input1} placeholder="Search chat list" placeholderTextColor={"gray"}/>
+        <TouchableOpacity style={styles.profileView} activeOpacity={0.5}>
+          <View style={styles.view5}><Image source={require("./images/avatars/logOut.png")} style={styles.avatarBack}/></View>
+        </TouchableOpacity>
       </View>
       <View style={styles.view2}>
         <View style={styles.view3}>
@@ -38,34 +66,53 @@ export function Home(){
       </View>
     </SafeAreaView>
   );
+
+  function chatUI({item}){
+    const ui = (
+      <TouchableOpacity style={styles.view9} activeOpacity={0.5} onPress={m}>
+          <View style={styles.view6}>
+             <View style={styles.image1}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+item.dpName+".png"}} style={styles.avatarBack} /></View>
+          </View>
+          <View style={styles.view7}>
+            <Text style={styles.text1}>{item.name}</Text>
+            <Text style={styles.text2}>{item.message}</Text>
+          </View>
+          <View style={styles.view8}>
+            <Text style={styles.text4}>{item.time}</Text>
+            <View style={styles.view10}>
+              {item.status!='null'?<Icon name="checkcircleo" color={item.status!='seen'?"#707070":"#5271FF"} size={20}/>:null}
+              <View style={styles.view11}>
+                <Text style={styles.text5}>{item.count}</Text>
+              </View>
+            </View>                
+          </View>
+      </TouchableOpacity>
+    );
+    return ui;
+  
+    function m(){
+      //Alert.alert("Message",item.name);
+  
+      const obj = {"name":item.name,"id":item.id,"img":item.dpName};
+  
+      navigation.navigate("Chat",obj);
+    }
+  }
+
   return ui;
 }
 
-function chatUI({item}){
-  const ui = (
-    <View style={styles.view9}>
-        <View style={styles.view6}>
-           <View style={styles.image1}><Icon name="user" color="white" size={40}/></View>
-        </View>
-        <View style={styles.view7}>
-          <Text style={styles.text1}>Sahan Perera</Text>
-          <Text style={styles.text2}>Thank you universe</Text>
-        </View>
-        <View style={styles.view8}>
-          <Text style={styles.text4}>6.45 pm</Text>
-          <View style={styles.view10}>
-            <Icon name="checkcircleo" color="#707070" size={20}/>
-            <View style={styles.view11}>
-              <Text style={styles.text5}>0</Text>
-            </View>
-          </View>                
-        </View>
-    </View>
-  );
-  return ui;
-}
+
 
 const styles = StyleSheet.create({ 
+  avatarBack:{
+    height:55,
+    width:55,
+    alignItems:"center",
+    justifyContent:"center",
+    backgroundColor:"#F3F6FF",
+    borderRadius:50,
+  },
   text5:{
     fontSize:13,
     color:"white",
@@ -93,7 +140,7 @@ const styles = StyleSheet.create({
   },
   text1:{
     fontSize:18,
-    color:"black",
+    color:"#5271FF",
     fontWeight:"bold",
   },
   image1:{
@@ -105,12 +152,14 @@ const styles = StyleSheet.create({
     backgroundColor:"#5271FF"
   },
   view9:{
-    borderWidth:1,
+    borderBottomWidth:1,
     borderColor:"#E4E4E4",
     width:"100%", 
     flexDirection:"row",
     height:80,
     borderRadius:34,
+    backgroundColor:"white",
+    borderLeftWidth:1
   },
   view6:{    
     width:"20%",
@@ -129,25 +178,25 @@ const styles = StyleSheet.create({
     rowGap:5    
   },
   view5:{
-    height:58,
-    width:58,
+    height:60,
+    width:60,
     backgroundColor:"white",
-    borderRadius:29,
+    borderRadius:30,
     alignItems:"center",
     justifyContent:"center", 
     borderColor:"#E4E4E4",   
     borderWidth:1,
   },
   profileView:{
-    height:70,
-    width:"19%",    
+    height:50,
+    width:"18%",    
     alignItems:"center",
     justifyContent:"center", 
        
   },
   input1:{
     height:50,
-    width:"62%",
+    width:"64%",
     borderWidth:1,
     borderColor:"#E4E4E4",
     color:"black",
@@ -157,8 +206,8 @@ const styles = StyleSheet.create({
     fontSize:16,
   },
   menuView:{
-    height:70,
-    width:"19%",     
+    height:50,
+    width:"18%",     
     alignItems:"center",
     justifyContent:"center",
   },
@@ -192,19 +241,25 @@ const styles = StyleSheet.create({
     alignItems:"center",    
     borderRadius:34,    
     backgroundColor:"white", 
-    height:"100%"          
+    height:"100%"  ,
+    overflow:"hidden"        
   },
   view2:{    
     width:"100%",
     alignItems:"center",      
-    height:"87%"  
+    height:"85%"  
   },
   view1:{    
     width:"100%",
-    alignItems:"center",
+    alignItems:"flex-end",
     justifyContent:"center",
-    height:"13%",
-    flexDirection:"row",       
+    height:"15%",
+    flexDirection:"row", 
+    backgroundColor:"#5271FF", 
+    paddingBottom:20  ,
+    borderBottomLeftRadius:34,
+    borderBottomRightRadius:34,  
+    
   },
   main:{
     flex:1,    

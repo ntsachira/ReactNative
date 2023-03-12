@@ -12,11 +12,15 @@ import {
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function SignIn({navigation}){
   const [mobile,setMobile] = useState("");
   const [password,setPassword] = useState("");
   const [error,setError] = useState("");
+
+  const [hide1,setHide1] = useState(1);
+  
   
   function loadSignIn(){
     var jsRequestObject ={"mobile":mobile,"password":password};
@@ -37,6 +41,7 @@ export function SignIn({navigation}){
             const navObject = {
               'user':jsResponseObject.user,
             };
+            AsyncStorage.setItem(`user`,JSON.stringify(navObject));
             navigation.navigate("Home",navObject);
           }
       } 
@@ -91,13 +96,16 @@ export function SignIn({navigation}){
                 placeholderTextColor={"#A8A7A7"} 
                 onChangeText={setPassword}
                 autoCorrect={false} 
-                secureTextEntry={true}              
+                secureTextEntry={hide1==1?true:false}              
               />
-              <TouchableOpacity style={styles.button5}>
-                <Icon name="eye" size={20} color="gray"/>
+              <TouchableOpacity style={styles.button5} onPress={()=>{hide1==1?setHide1(2):setHide1(1);}} hitSlop={20}>
+                <Icon name={hide1==1?"eye-slash":"eye"} size={20} color={hide1==1?"gray":"black"}/>
               </TouchableOpacity>              
             </View>
-            <TouchableOpacity style={styles.button4} activeOpacity={0.7}>
+            <TouchableOpacity 
+            style={styles.button4} 
+            activeOpacity={0.7} 
+            onPress={()=>{Alert.alert("Forgot Password?","Who cares, LOL")}}>
               <Text style={styles.text4}>Forgot password?</Text>
             </TouchableOpacity>
           </View>
@@ -210,11 +218,11 @@ const styles = StyleSheet.create({
   view4:{
     flexDirection:"row",
     width:"85%",
-    height:40,
+    height:42,
     borderWidth:1,
     borderColor:"#EAEAF5",
-    borderRadius:20,  
-    
+    borderRadius:21,  
+    alignItems:"center",
   },
   view3:{    
     width:"90%",

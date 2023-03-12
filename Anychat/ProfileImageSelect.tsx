@@ -13,6 +13,7 @@ import {
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function ProfileImageSelect({navigation,route}){
   
@@ -40,9 +41,9 @@ export function ProfileImageSelect({navigation,route}){
 
       setProfileImage(imageObject);
       //loadSignUp(0);
-      setAvatarUrl(route.params.mobile);
+      
     }
-   
+    setAvatarUrl(route.params.mobile);
    setImageStatus("image");
   }
 
@@ -56,14 +57,11 @@ export function ProfileImageSelect({navigation,route}){
 
     const request = new XMLHttpRequest();
     request.onreadystatechange = function(){
-      if(request.readyState==4 && request.status==200){
-        if(request.responseText=="avatar7"){
-          setSkipButton("Skip? and finish");
-        }else{
-          setSkipButton("Finish");
-        }
-        setAvatarUrl(request.responseText);
-        Alert.alert("nice",request.responseText);
+      if(request.readyState==4 && request.status==200){    
+        Alert.alert("Message","Sign Up successfull");
+        
+         //Navigate to Home
+         navigation.navigate("SignIn");
       }
     };
     request.open("POST","http://192.168.1.189/anychat/signUpProcess.php",true);

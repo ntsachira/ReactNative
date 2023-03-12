@@ -7,18 +7,25 @@ import {
   } 
 from 'react-native';
 import { SignUp } from "./SignUp";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export function Splash({navigation}){
-  function splash(){
-    navigation.navigate("SignIn");
+  async function checkUser() {
+    
+    const user = await AsyncStorage.getItem('user');  
+    
+    const screen = user!=null?"Home":"SignIn";
+    navigation.navigate(screen);
+
+    return screen;
   }
 
   function start(){
-    setTimeout(splash,3000);
+    setTimeout(checkUser,400);
   }
 
-  //useEffect(start,[]);
+  useEffect(start,[]);
 
   const ui = ( 
     <SafeAreaView style={styles.main}>
