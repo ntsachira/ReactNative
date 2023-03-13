@@ -97,9 +97,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
           placeholderTextColor={"#A8A7A7"}
           autoCorrect={false}
           multiline 
+          ref={input => { this.textInput = input }}
           onChangeText={(text)=>{setChatText(text);flatlistRef.current.scrollToEnd();}}
           />
-          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={()=>{saveChat();flatlistRef.current.scrollToEnd();}}>
+          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={()=>{saveChat();flatlistRef.current.scrollToEnd();this.textInput.clear()}}>
               <Icon name="send" color="white" size={25} />
           </TouchableOpacity>
       </View>
