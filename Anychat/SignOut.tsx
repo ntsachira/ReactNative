@@ -12,8 +12,19 @@ import {
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export function SignOut(){
+export function SignOut({navigation}){
+
+  function signout(){
+    const user = {
+      'log':'signout',
+      'user':{'id':""}
+    };
+    AsyncStorage.setItem(`user`,JSON.stringify(user));
+    const obj ={};
+    navigation.navigate("SignIn",);
+  }
   
   const ui = (
     <SafeAreaView style={styles.main}>
@@ -33,10 +44,10 @@ export function SignOut(){
             <Text style={styles.text2}>Remember my sign in details</Text>
           </View>
           <View style={styles.view8}>
-            <TouchableOpacity style={styles.button1} activeOpacity={0.6}>
+            <TouchableOpacity style={styles.button1} activeOpacity={0.6} onPress={signout}>
               <Text style={styles.btnText1}>Confirm</Text>
             </TouchableOpacity>                          
-            <TouchableOpacity  style={styles.button3} activeOpacity={0.6}>
+            <TouchableOpacity  style={styles.button3} activeOpacity={0.6} onPress={()=>{navigation.navigate("Home")}}>
               <Text style={styles.btnText1}>Decline</Text>
             </TouchableOpacity>              
           </View>
@@ -59,22 +70,23 @@ const styles = StyleSheet.create({
   button3:{
     width:"40%",
     backgroundColor:"black",
-    height:40,
+    height:50,
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:20,    
+    borderRadius:25,    
   },  
   btnText1:{
     color:"white",
-    fontSize:15,
+    fontSize:17,
+    fontWeight:'bold'
   },
   button1:{
     width:"40%",
     backgroundColor:"#5271FF",
-    height:40,
+    height:50,
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:20,
+    borderRadius:25,
   },
  
   view8:{
@@ -97,7 +109,8 @@ const styles = StyleSheet.create({
   },  
   text1:{       
     color:"#5271FF",
-    fontSize:16,
+    fontSize:20,
+    fontWeight:'bold'
   },
   text2:{
     fontSize:14,    

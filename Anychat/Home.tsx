@@ -43,19 +43,22 @@ export function Home({navigation}){
   function start(){
     loadUsers("");
   }
-
+function startAgain(){
+  loadUsers("");
+  setInterval(start,3000);
+}
  
 
-  useEffect(start,[]);
+  useEffect(startAgain,[]);
 
   function signout(){
-    const user = {
-      'log':'signout',
-      'user':{'id':""}
-    };
-    AsyncStorage.setItem(`user`,JSON.stringify(user));
-    const obj ={};
-    navigation.navigate("SignIn",);
+    //  const user = {
+    //   'log':'signout',
+    //    'user':{'id':""}
+    //  };
+    //  AsyncStorage.setItem(`user`,JSON.stringify(user));
+    //  const obj ={};
+    navigation.navigate("SignOut",);
   }
 
   const ui = (
@@ -190,6 +193,7 @@ const styles = StyleSheet.create({
     backgroundColor:"white",
     borderLeftWidth:1,
     paddingRight:5,
+    borderBottomRightRadius:0
   },
   view6:{    
     width:"20%",

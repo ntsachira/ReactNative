@@ -49,7 +49,8 @@ function App(){
               headerTitleAlign:"center",
               headerTintColor:"white",
               headerTitleStyle:{fontFamily:"RighteousRegular",fontSize:27},
-              headerShown:true
+              headerShown:true,
+              freezeOnBlur:true
             }
           }
           />
@@ -59,7 +60,7 @@ function App(){
         <Stack.Screen name="FriendProfileView" component={FriendProfileView} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="ChangeName" component={ChangeName} />
-        <Stack.Screen name="ChangePassword" component={ChangePassword}  />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} options={{animation:"fade",}} />
         <Stack.Screen name="SelectCountry" component={SelectCountry} />
       </Stack.Navigator>
     </NavigationContainer>
