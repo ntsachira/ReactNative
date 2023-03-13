@@ -31,30 +31,16 @@ function App(){
           },
             headerTintColor: '#5271FF',
             headerTransparent:true,
-            animation:"slide_from_right",
+            animation:"fade_from_bottom",
             orientation:"portrait",
             headerShown:false
            
         }}>
-        <Stack.Screen name="Splash" component={Splash}  />
+        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="ProfileImageSelect" component={ProfileImageSelect} options={{title:""}}/>
-        <Stack.Screen 
-          name="Home" 
-          component={Home} 
-          options={
-            {
-              title:"Any Chat",
-              headerBackVisible:false,
-              headerTitleAlign:"center",
-              headerTintColor:"white",
-              headerTitleStyle:{fontFamily:"RighteousRegular",fontSize:27},
-              headerShown:true,
-              
-            }
-          }
-          />
+        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="SignOut" component={SignOut} />        
         <Stack.Screen name="Chat" component={Chat}  />
         <Stack.Screen name="NewChat" component={NewChat} />

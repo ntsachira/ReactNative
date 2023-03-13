@@ -16,31 +16,35 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export function Profile(){
+export function Profile({navigation}){
   const info =[
     {
       'icon':'user',
       'topic':'Name',
       'value':'Sachira Jayawardana', 
-      'size':25,  
+      'size':25, 
+      'navigate':'ChangeName' 
     },
     {
       'icon':'globe',
       'topic':'Country',
       'value':'Sri Lanka', 
       'size':25,      
+      'navigate':'SelectCountry' 
     },
     {
       'icon':'mobile',
       'topic':'Mobile',
       'value':'0714798940',  
-      'size':30,     
+      'size':30,  
+      'navigate':'ChangeName'    
     },
     {
       'icon':'calendar',
       'topic':'Birthday',
       'value':'Hidden', 
-      'size':20,      
+      'size':20,    
+      'navigate':'ChangeName'   
     },
   ];
   const [profileImage,setProfileImage] = useState(null);
@@ -79,23 +83,13 @@ export function Profile(){
            <TouchableOpacity style={styles.view5} onPress={selectProfilePicture}>
               <View style={styles.dpBack}>
                 <View style={styles.dpView}>
-                <Image source={{uri:"http://192.168.1.189/anychat/avatars/avatar2.png"}} style={styles.avatarBack}/>
+                <Image source={{uri:profileImage!=null?profileImage.uri:"http://192.168.1.189/anychat/avatars/avatar2.png"}} style={styles.avatarBack}/>
                 </View>
                 <View style={styles.imageSelector}>
-                  <Icon name="camera" color="black" size={15}/>
+                  <Icon name="camera" color="white" size={20}/>
                 </View>
               </View>
-            </TouchableOpacity>                
-            {/* <TouchableOpacity style={styles.view5} activeOpacity={0.6}>
-              <View style={styles.dpBack}>
-                <View style={styles.dpView}>
-                  <Icon name="user" size={60} color="black"/>
-                </View>
-                <View style={styles.imageSelector}>
-                  <Icon name="camera" color="black" size={15}/>
-                </View>
-              </View>
-            </TouchableOpacity>    */}
+            </TouchableOpacity>            
                          
             <FlatList data={info} renderItem={loadInfo}/>
             
@@ -103,10 +97,10 @@ export function Profile(){
               <TouchableOpacity style={styles.button1} activeOpacity={0.6}>
                 <Text style={styles.btnText1}>Update profile</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button2} activeOpacity={0.6}>
+              <TouchableOpacity style={styles.button2} activeOpacity={0.6} onPress={()=>{navigation.navigate("ChangePassword")}}>
                 <Text style={styles.btnText1}>Change password</Text>
               </TouchableOpacity>             
-              <TouchableOpacity  style={styles.button3} activeOpacity={0.6}>
+              <TouchableOpacity  style={styles.button3} activeOpacity={0.6} onPress={()=>{Alert.alert("Alert !","This facility not is not supported yet.")}}>
               <Text style={styles.btnText1}>Deactivate account</Text>
               </TouchableOpacity>
               
@@ -116,31 +110,39 @@ export function Profile(){
     </SafeAreaView>
   );
   return ui;
+
+  function loadInfo({item}){
+    const ui = (
+              <View style={styles.view7}>  
+                <View style={styles.detailView1}>
+                  <View style={styles.detailView2}>
+                    <View style={styles.iconView1}>
+                      <Icon name={item.icon} color="white" size={item.size}/>
+                    </View>
+                  </View>
+                  <View style={styles.detailView3}>
+                    <Text style={styles.text1}>{item.topic}</Text>
+                    <Text style={styles.text2}>{item.value}</Text>
+                  </View>
+                  <TouchableOpacity style={styles.detailView4} onPress={()=>{navigation.navigate(item.navigate)}}>
+                    <Icon name="edit" color="#5271FF" size={25}/>
+                  </TouchableOpacity>
+                </View>
+              </View>  
+    );
+    return ui;
+  }
 }
 
-function loadInfo({item}){
-  const ui = (
-            <View style={styles.view7}>  
-              <View style={styles.detailView1}>
-                <View style={styles.detailView2}>
-                  <View style={styles.iconView1}>
-                    <Icon name={item.icon} color="white" size={item.size}/>
-                  </View>
-                </View>
-                <View style={styles.detailView3}>
-                  <Text style={styles.text1}>{item.topic}</Text>
-                  <Text style={styles.text2}>{item.value}</Text>
-                </View>
-                <TouchableOpacity style={styles.detailView4}>
-                  <Icon name="edit" color="#5271FF" size={25}/>
-                </TouchableOpacity>
-              </View>
-            </View>  
-  );
-  return ui;
-}
+
 
 const styles = StyleSheet.create({ 
+  avatarBack:{
+    height:130,
+    width:130,
+   
+    borderRadius:65,
+  },
   button2:{
     width:"80%",
     backgroundColor:"red",
@@ -208,41 +210,37 @@ const styles = StyleSheet.create({
     alignItems:"center",   
   },
   imageSelector:{
-    height:30,
-    width:30,
+    height:45,
+    width:45,
     alignItems:"center",
     justifyContent:"center",
     borderColor:"white",
     borderWidth:2,
-    borderRadius:15,
+    borderRadius:25,
     position:"absolute",
     end:0,
-    bottom:0,
-    backgroundColor:"#E4E4E4",
+    bottom:-2,
+    backgroundColor:"#5271FF",
   },
   view5:{      
-    height:82,
-    width:82,
+    height:130,
+    width:130,
     borderRadius:17    
   },
   view6:{
     alignItems:"center"
   },
   dpView:{
-    height:78,
-    width:78,
+    height:130,
+    width:130,
     alignItems:"center",
-    justifyContent:"center",
-    borderColor:"#5271FF",
-    borderWidth:2,
-    borderRadius:39,
+    justifyContent:"center",    
+    borderRadius:65,
   },
   dpBack:{
-    height:80,
-    width:80,
-    borderRadius:40,
-    borderColor:"#F3F6FF",
-    borderWidth:1,
+    height:130,
+    width:130,
+    borderRadius:50,   
   },   
   text1:{       
     color:"#5271FF",
@@ -263,18 +261,19 @@ const styles = StyleSheet.create({
   },
   view3:{    
     width:"90%",
-    paddingVertical:40,
+    paddingBottom:40,
     alignItems:"center",
     justifyContent:"center",
     borderRadius:34,    
     backgroundColor:"white", 
-    rowGap:20,   
+    rowGap:20,  
+    paddingTop:25, 
   },
   view2:{    
     width:"100%",
     alignItems:"center",     
     height:700, 
-    paddingTop:50,      
+    paddingTop:40,      
   },
   view1:{    
     width:"100%",

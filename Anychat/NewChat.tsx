@@ -8,17 +8,73 @@ import {
   Touchable,
   TouchableOpacity,
   View,
-  FlatList
+  FlatList,
+  Alert
   } 
 from 'react-native';
-import Icon from 'react-native-vector-icons/dist/AntDesign';
+import Icon from 'react-native-vector-icons/dist/Ionicons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function NewChat({navigation}){
-  const items = [1,2,3,4,5,6,7];
+
+  var i = 0;
+  
+  const [emptyMessage,setEmptyMessage] = useState("");
+  const [items, setItems] = useState([]);
+  const [dp,setDp] = useState("avatar7");
+  
+ 
+   async function loadUsers(searchText){   
+     var userJSONText = await AsyncStorage.getItem('user');
+     var text =JSON.parse(userJSONText);
+    
+     setDp(text.user.profile_url);
+     const form= new FormData();
+     form.append("userJson",userJSONText);
+     form.append("searchText",searchText);
+     form.append("users","new");
+       var request = new XMLHttpRequest();
+       request.onreadystatechange = function () {
+         if (request.readyState == 4 && request.status == 200) {
+          const jsResponseItemArray =JSON.parse(request.responseText);
+           setItems(JSON.parse(request.responseText));
+
+          if(jsResponseItemArray==""){
+            Alert.alert("Message","Sorry ! no more new chats are available.");
+            clearInterval(i);
+            navigation.navigate("Home");
+            
+          }
+         }
+       };
+       request.open('POST', 'http://192.168.1.189/anychat/load_users.php', true);
+       request.send(form); 
+ 
+   }
+ 
+   function start(){
+     loadUsers("");
+   }
+ function startAgain(){
+  start();
+    i = setInterval(start,5000);
+   
+ }
+
+ useEffect(startAgain,[]);
+
   const ui = (
     <SafeAreaView style={styles.main}>      
-      <View style={styles.view1}>        
-        <TextInput style={styles.input1} placeholder="Search to start a new chat" placeholderTextColor={"#A8A7A7"}/>        
+      <View style={styles.view1}>   
+        <TouchableOpacity style={{zIndex:2}} hitSlop={30} onPress={()=>{navigation.navigate("Home");}}>
+         <Icon name="ios-chevron-back-circle" size={50} /> 
+        </TouchableOpacity>      
+        <TextInput 
+        style={styles.input1} 
+        placeholder="Search to start a new chat" 
+        placeholderTextColor={"#A8A7A7"}
+        onChangeText={(text)=>{loadUsers(text)}}
+        />        
       </View>
       <View style={styles.view2}>
         <View style={styles.view3}>
@@ -34,12 +90,12 @@ export function NewChat({navigation}){
   function chatUI({item}){
     const ui = (
       
-      <TouchableOpacity style={styles.view9} activeOpacity={0.5} onPress={()=>{navigation.navigate("Chat")}}>
+      <TouchableOpacity style={styles.view9} activeOpacity={0.5} onPress={m}>
           <View style={styles.view6}>
-             <View style={styles.image1}><Icon name="user" color="white" size={40}/></View>
+             <View style={styles.image1}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+item.dpName+".png"}} style={styles.avatarBack} /></View>
           </View>
           <View style={styles.view7}>
-            <Text style={styles.text1}>Sasindu Malinda</Text>
+            <Text style={styles.text1}>{item.name}</Text>
             <Text style={styles.text2}>Tap to chat</Text>
           </View>
           <View style={styles.view8}>
@@ -48,12 +104,29 @@ export function NewChat({navigation}){
       </TouchableOpacity>
     );
     return ui;
+
+    function m(){
+      //Alert.alert("Message",item.name);
+  
+      const obj = {"name":item.name,"id":item.id,"img":item.dpName};
+  
+      navigation.navigate("Chat",obj);
+    }
+  
   }
 }
 
 
 
 const styles = StyleSheet.create({  
+  avatarBack:{
+    height:60,
+    width:60,
+    alignItems:"center",
+    justifyContent:"center",
+    backgroundColor:"#707070",
+    borderRadius:50,
+  },
   text4:{
     fontSize:13,
     color:"black",
@@ -120,19 +193,23 @@ const styles = StyleSheet.create({
     alignItems:"center",    
     borderRadius:34,    
     backgroundColor:"white", 
-    height:"100%"          
+    height:"100%"  ,
+    marginTop:5,        
   },
   view2:{    
     width:"100%",
     alignItems:"center",      
-    height:"87%"  
+    height:"87%",  
+    
   },
   view1:{    
     width:"100%",
     alignItems:"center",
     justifyContent:"center",
-    height:"13%",
-    flexDirection:"row",       
+    height:100,
+    flexDirection:"row",  
+    backgroundColor:"#5271FF"  ,
+    columnGap:8,   
   },
   main:{
     flex:1,    

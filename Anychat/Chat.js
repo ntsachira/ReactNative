@@ -77,13 +77,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
   
   const ui = (
     <SafeAreaView style={styles.main}>      
-      <View style={styles.view1}>        
+      <View style={styles.view1}> 
+        <TouchableOpacity style={{start:4,zIndex:2}} hitSlop={30} onPress={()=>{navigation.navigate("Home");}}>
+         <Icon name="ios-chevron-back-circle" size={50} /> 
+        </TouchableOpacity>              
         <View style={styles.nameView}><Text style={styles.text5}>{route.params.name}</Text></View>
-        <View style={styles.profileView}>
+        <TouchableOpacity style={styles.profileView} onPress={()=>{navigation.navigate("FriendProfileView");}}>
             <View style={styles.view5}>
               <Image source={{uri:"http://192.168.1.189/anychat/avatars/"+route.params.img+".png"}} style={styles.avatarBack} />
             </View>
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.view2}>
         <View style={styles.view3}>
@@ -98,9 +101,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
           autoCorrect={false}
           multiline 
           ref={input => { this.textInput = input }}
-          onChangeText={(text)=>{setChatText(text);flatlistRef.current.scrollToEnd();}}
+          onChangeText={(text)=>{setChatText(text);}}
           />
-          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={()=>{saveChat();flatlistRef.current.scrollToEnd();this.textInput.clear()}}>
+          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={()=>{saveChat();this.textInput.clear()}}>
               <Icon name="send" color="white" size={25} />
           </TouchableOpacity>
       </View>
@@ -114,6 +117,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
   }
   function startAgain(){
     setInterval(start,2000);
+    loadChat(false);
   }
   useEffect(startAgain,[]);
 
@@ -174,7 +178,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius:24,
     backgroundColor:"#EAEAF5",  
     columnGap:12, 
-    paddingRight:7
+    paddingRight:7,
+    
   },
   messageRight:{       
     alignSelf:"flex-end",
@@ -193,7 +198,7 @@ const styles = StyleSheet.create({
   messageViewRight:{
     width:"90%",    
     alignSelf:"flex-end",
-    paddingBottom:6
+    paddingTop:4
   },
   input1:{
     height:53,
@@ -236,10 +241,9 @@ const styles = StyleSheet.create({
   },
   nameView:{
     height:50,
-    width:"75%",       
-    justifyContent:"center",  
-    alignItems:"center",
-    paddingLeft:45
+    width:"63%",       
+    justifyContent:"center",      
+    paddingLeft:15
   },
   
   button3:{

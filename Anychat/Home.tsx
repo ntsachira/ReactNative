@@ -130,12 +130,11 @@ const styles = StyleSheet.create({
   logOutView:{
     height:60,
     width:60,
-    alignItems:"center",
-    borderWidth:1,
-    borderColor:"#707070" ,
+    alignItems:"center",    
     borderRadius:30,
     top:-5  ,
-    backgroundColor:"blue" 
+    
+    
   },
   dp:{
     height:59,
@@ -151,7 +150,7 @@ const styles = StyleSheet.create({
   },
   avatarBack:{
     height:60,
-    width:55,
+    width:60,
     alignItems:"center",
     justifyContent:"center",
     backgroundColor:"#707070",
@@ -183,7 +182,7 @@ const styles = StyleSheet.create({
     color:"gray",
   },
   text1:{
-    fontSize:18,
+    fontSize:17,
     color:"#5271FF",
     fontWeight:"bold",
   },
@@ -273,13 +272,15 @@ const styles = StyleSheet.create({
     backgroundColor:"#5271FF",
     alignItems:"center",
     justifyContent:"center",
-    height:55,
-    borderRadius:27.5,  
+    height:60,
+    borderRadius:30,  
     zIndex:1,
     position:"absolute",
     bottom:30,
-    borderColor:"#E4E4E4",   
-    borderWidth:1,  
+    borderColor:"#A8A7A7",   
+    borderBottomWidth:1,  
+    borderLeftWidth:1,
+    borderRightWidth:1,
   },
   
   view3:{    
@@ -293,18 +294,17 @@ const styles = StyleSheet.create({
   view2:{    
     width:"100%",
     alignItems:"center",      
-    height:"85%"  
+    height:730 
   },
   view1:{    
     width:"100%",
     alignItems:"flex-end",
     justifyContent:"center",
-    height:"15%",
+    height:100,
     flexDirection:"row", 
     backgroundColor:"#5271FF", 
     paddingBottom:20  ,
-    borderBottomLeftRadius:34,
-    borderBottomRightRadius:34,  
+      
     
   },
   main:{

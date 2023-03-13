@@ -13,7 +13,7 @@ import {
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 
-export function ChangeName(){
+export function ChangeName({navigation}){
   
   const ui = (
     <SafeAreaView style={styles.main}>
@@ -34,7 +34,7 @@ export function ChangeName(){
             <TouchableOpacity style={styles.button1} activeOpacity={0.6}>
               <Text style={styles.btnText1}>Save</Text>
             </TouchableOpacity>                          
-            <TouchableOpacity  style={styles.button3} activeOpacity={0.6}>
+            <TouchableOpacity  style={styles.button3} activeOpacity={0.6} onPress={()=>{navigation.navigate("Profile")}}>
               <Text style={styles.btnText1}>Discard</Text>
             </TouchableOpacity>              
           </View>
@@ -66,22 +66,23 @@ const styles = StyleSheet.create({
   button3:{
     width:"35%",
     backgroundColor:"black",
-    height:40,
+    height:50,
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:20,    
+    borderRadius:25,    
   },  
   btnText1:{
     color:"white",
-    fontSize:15,
+    fontSize:16,
+    fontWeight:"bold",
   },
   button1:{
     width:"35%",
     backgroundColor:"#5271FF",
-    height:40,
+    height:50,
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:20,    
+    borderRadius:25,    
   },
  
   view8:{
@@ -104,7 +105,8 @@ const styles = StyleSheet.create({
   },  
   text1:{       
     color:"#5271FF",
-    fontSize:18,
+    fontSize:20,
+    
   },
   text2:{
     fontSize:14,    

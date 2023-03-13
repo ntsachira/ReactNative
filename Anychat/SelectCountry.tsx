@@ -14,7 +14,7 @@ from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import Dropdown from '@febfeb/react-native-dropdown';
 
-export function SelectCountry(){  
+export function SelectCountry({navigation}){  
   const fruits = [
     { id: 1, label: 'Apple'},
     { id: 2, label: 'Orange'},
@@ -24,7 +24,25 @@ export function SelectCountry(){
     { id: 7, label: 'Japan'},
 ];
 
-const [fruit, setFruit] = useState(5);
+const [fruit, setFruit] = useState(1);
+const [countryArray,setCountryArray] = useState([]);
+
+function loadCountries(){   
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function(){
+    if(request.readyState==4 && request.status==200){
+      //Alert.alert(request.responseText);
+      const jsResponseObject = JSON.parse(request.responseText);
+      setCountryArray(jsResponseObject);
+    }
+  };
+  request.open("GET","http://192.168.1.189/anychat/loadCountries.php",true);
+  request.send();
+}
+function startLoadCountries(){
+  loadCountries();
+}
+useEffect(startLoadCountries,[]);
 
   const ui = (
     <SafeAreaView style={styles.main}>
@@ -42,7 +60,7 @@ const [fruit, setFruit] = useState(5);
           <View style={styles.view7}>             
           <Dropdown            
             value={fruit}
-            data={fruits}
+            data={countryArray}
             onChange={(val) => { setFruit(val);}}
             theme={{
               boxStyle: {
@@ -71,7 +89,7 @@ const [fruit, setFruit] = useState(5);
             <TouchableOpacity style={styles.button1} activeOpacity={0.6}>
               <Text style={styles.btnText1}>Save</Text>
             </TouchableOpacity>                          
-            <TouchableOpacity  style={styles.button3} activeOpacity={0.6}>
+            <TouchableOpacity  style={styles.button3} activeOpacity={0.6} onPress={()=>{navigation.navigate("Profile")}}>
               <Text style={styles.btnText1}>Discard</Text>
             </TouchableOpacity>              
           </View>
@@ -95,22 +113,23 @@ const styles = StyleSheet.create({
   button3:{
     width:"35%",
     backgroundColor:"black",
-    height:40,
+    height:50,
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:20,    
+    borderRadius:25,    
   },  
   btnText1:{
     color:"white",
-    fontSize:15,
+    fontSize:16,
+    fontWeight:"bold",
   },
   button1:{
     width:"35%",
     backgroundColor:"#5271FF",
-    height:40,
+    height:50,
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:20,    
+    borderRadius:25,    
   },
  
   view8:{
@@ -131,7 +150,7 @@ const styles = StyleSheet.create({
   },  
   text1:{       
     color:"#5271FF",
-    fontSize:18,
+    fontSize:20,
   },
   text2:{
     fontSize:14,    
