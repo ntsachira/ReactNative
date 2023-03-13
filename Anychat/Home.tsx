@@ -44,7 +44,19 @@ export function Home({navigation}){
     loadUsers("");
   }
 
+ 
+
   useEffect(start,[]);
+
+  function signout(){
+    const user = {
+      'log':'signout',
+      'user':{'id':""}
+    };
+    AsyncStorage.setItem(`user`,JSON.stringify(user));
+    const obj ={};
+    navigation.navigate("SignIn",);
+  }
 
   const ui = (
     <SafeAreaView style={styles.main}>      
@@ -57,8 +69,8 @@ export function Home({navigation}){
           <View style={styles.view5}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+dp+".png"}} style={styles.avatarBack}/></View>
         </TouchableOpacity>
         <TextInput style={styles.input1} placeholder="Search chat list" placeholderTextColor={"gray"} onChangeText={(text)=>{loadUsers(text)}}/>
-        <TouchableOpacity style={styles.profileView} activeOpacity={0.5} onPress={()=>{navigation.navigate("SignIn")}}>
-          <View style={styles.view5}><Image source={require("./images/avatars/logOut.png")} style={styles.avatarBack}/></View>
+        <TouchableOpacity style={styles.profileView} activeOpacity={0.5} onPress={signout}>
+          <View style={styles.view5}><Image source={require("./images/avatars/logOut.png")} style={styles.viewPower}/></View>
         </TouchableOpacity>
       </View>
       <View style={styles.view2}>
@@ -112,6 +124,16 @@ export function Home({navigation}){
 
 
 const styles = StyleSheet.create({ 
+  viewPower:{
+    height:50,
+    width:50,
+    backgroundColor:"white",
+    borderRadius:30,
+    alignItems:"center",
+    justifyContent:"center", 
+    borderColor:"#E4E4E4",   
+    borderWidth:1,
+  },
   avatarBack:{
     height:55,
     width:55,
@@ -196,7 +218,7 @@ const styles = StyleSheet.create({
     borderWidth:1,
   },
   profileView:{
-    height:50,
+    height:40,
     width:"18%",    
     alignItems:"center",
     justifyContent:"center", 
@@ -215,7 +237,7 @@ const styles = StyleSheet.create({
     zIndex:1,
   },
   menuView:{
-    height:50,
+    height:40,
     width:"18%",     
     alignItems:"center",
     justifyContent:"center",

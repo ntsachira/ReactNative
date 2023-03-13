@@ -32,11 +32,12 @@ function App(){
             headerTransparent:true,
             animation:"slide_from_right",
             orientation:"portrait",
-            
+            headerShown:false
+           
         }}>
-        <Stack.Screen name="Splash" component={Splash} options={{headerShown:false}} />
-        <Stack.Screen name="SignIn" component={SignIn} options={{headerShown:false}}/>
-        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
+        <Stack.Screen name="Splash" component={Splash}  />
+        <Stack.Screen name="SignIn" component={SignIn} />
+        <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="ProfileImageSelect" component={ProfileImageSelect} options={{title:""}}/>
         <Stack.Screen 
           name="Home" 
@@ -47,17 +48,18 @@ function App(){
               headerBackVisible:false,
               headerTitleAlign:"center",
               headerTintColor:"white",
-              headerTitleStyle:{fontFamily:"RighteousRegular",fontSize:27}
+              headerTitleStyle:{fontFamily:"RighteousRegular",fontSize:27},
+              headerShown:true
             }
           }
           />
         <Stack.Screen name="SignOut" component={SignOut} />
-        <Stack.Screen name="Chat" component={Chat} options={{title:""}} />
-        <Stack.Screen name="NewChat" component={NewChat} options={{title:""}}/>
+        <Stack.Screen name="Chat" component={Chat}  />
+        <Stack.Screen name="NewChat" component={NewChat} />
         <Stack.Screen name="FriendProfileView" component={FriendProfileView} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="ChangeName" component={ChangeName} />
-        <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword}  />
         <Stack.Screen name="SelectCountry" component={SelectCountry} />
       </Stack.Navigator>
     </NavigationContainer>

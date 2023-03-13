@@ -94,7 +94,7 @@ function loadInfo({item}){
                   <Text style={styles.text2}>{item.value}</Text>
                 </View>
                 <TouchableOpacity style={styles.detailView4}>
-                  <Icon name="edit" color="black" size={20}/>
+                  <Icon name="edit" color="#5271FF" size={25}/>
                 </TouchableOpacity>
               </View>
             </View>  
@@ -106,30 +106,31 @@ const styles = StyleSheet.create({
   button2:{
     width:"80%",
     backgroundColor:"red",
-    height:40,
+    height:50,
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:20,
+    borderRadius:25,
   }, 
   button3:{
     width:"80%",
     backgroundColor:"black",
-    height:40,
+    height:50,
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:20,    
+    borderRadius:25,    
   },  
   btnText1:{
     color:"white",
-    fontSize:15,
+    fontSize:16,
+    fontWeight:"bold"
   },
   button1:{
     width:"80%",
     backgroundColor:"#5271FF",
-    height:40,
+    height:50,
     justifyContent:"center",
     alignItems:"center",
-    borderRadius:20,
+    borderRadius:25,
   },
   iconView1:{
     height:40,
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
     fontSize:13,
   },
   text2:{
-    fontSize:15,    
+    fontSize:17,    
     color:"black",
   },  
   view4:{
@@ -237,12 +238,11 @@ const styles = StyleSheet.create({
     height:700, 
     paddingTop:50,      
   },
-  view1:{
-    paddingVertical:24,
+  view1:{    
     width:"100%",
     alignItems:"center",
-    justifyContent:"center", 
-    height:130,    
+    justifyContent:"flex-end", 
+    height:100,    
   },
   appIcon:{
     height:70,

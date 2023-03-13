@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useRef} from "react";
 import {
   Image,
   SafeAreaView, 
@@ -20,8 +20,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
     const [chatText,setChatText] = useState("");
     const [chatHistory, setChatHistory] = useState([]);
 
+    const flatlistRef = useRef();
    
-    async function loadChat(){
+    async function loadChat(scroll){
 
       var userJsonText = await AsyncStorage.getItem('user');
       var userJSObject = JSON.parse(userJsonText);
@@ -37,6 +38,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
         var responseArray = JSON.parse(responseText);
         setChatHistory(responseArray);
         //Alert.alert("Message",request.responseText);
+       //scroll the view send a new message
+        if(scroll){
+        flatlistRef.current.scrollToEnd();
+       }
       }
     };
     request.open('POST', 'http://192.168.1.189/anychat/load_chat.php', true);
@@ -62,7 +67,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
       if (request.readyState == 4 && request.status == 200) {
-        Alert.alert("Message",request.responseText);
+        loadChat(true);        
       }
     };
     request.open('POST', 'http://192.168.1.189/anychat/saveChat.php', true);
@@ -82,7 +87,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
       </View>
       <View style={styles.view2}>
         <View style={styles.view3}>
-          <FlatList data={chatHistory} renderItem={messageList}/>                     
+          <FlatList data={chatHistory} renderItem={messageList} ref={flatlistRef}/>                     
         </View>
       </View>
       <View style={styles.view6}>
@@ -92,9 +97,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
           placeholderTextColor={"#A8A7A7"}
           autoCorrect={false}
           multiline 
-          onChangeText={setChatText}
+          onChangeText={(text)=>{setChatText(text);flatlistRef.current.scrollToEnd();}}
           />
-          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={saveChat}>
+          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={()=>{saveChat();flatlistRef.current.scrollToEnd();}}>
               <Icon name="send" color="white" size={25} />
           </TouchableOpacity>
       </View>
@@ -102,9 +107,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
   );
 
   function start(){
-    setInterval(loadChat,2000);
+    
+    loadChat(false);
+    
   }
-  useEffect(start,[]);
+  function startAgain(){
+    setInterval(start,2000);
+  }
+  useEffect(startAgain,[]);
 
   return ui;
 } 
@@ -177,7 +187,7 @@ const styles = StyleSheet.create({
   messageViewLeft:{
     width:"90%",    
     alignSelf:"flex-start",
-    paddingBottom:4
+    paddingTop:4
   },
   messageViewRight:{
     width:"90%",    
@@ -227,7 +237,8 @@ const styles = StyleSheet.create({
     height:50,
     width:"75%",       
     justifyContent:"center",  
-    paddingHorizontal:15
+    alignItems:"center",
+    paddingLeft:45
   },
   
   button3:{
@@ -245,15 +256,16 @@ const styles = StyleSheet.create({
     width:"100%",       
     borderRadius:34,    
     backgroundColor:"white", 
-    height:680,
+    height:"100%",
     paddingHorizontal:10,
-    paddingTop:15,
+    
+    
   },
   view2:{    
     width:"100%",
     alignItems:"center",
     padding:0,      
-    flex:1
+    flex:1,    
   },
   view1:{    
     width:"100%",
@@ -261,9 +273,9 @@ const styles = StyleSheet.create({
     
     height:90,
     flexDirection:"row", 
-    borderBottomLeftRadius:34,    
+    borderBottomLeftRadius:1,    
     backgroundColor:"#5271FF",
-    borderBottomRightRadius:34
+    borderBottomRightRadius:1
   },
   main:{
     flex:1,    
