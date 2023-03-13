@@ -69,11 +69,11 @@ function startAgain(){
         activeOpacity={0.5}
         onPress={()=>{navigation.navigate("Profile")}}
         >
-          <View style={styles.view5}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+dp+".png"}} style={styles.avatarBack}/></View>
+          <View style={styles.view5}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+dp+".png"}} style={styles.dp}/></View>
         </TouchableOpacity>
         <TextInput style={styles.input1} placeholder="Search chat list" placeholderTextColor={"gray"} onChangeText={(text)=>{loadUsers(text)}}/>
         <TouchableOpacity style={styles.profileView} activeOpacity={0.5} onPress={signout}>
-          <View style={styles.view5}><Image source={require("./images/avatars/logOut.png")} style={styles.viewPower}/></View>
+          <View style={styles.logOutView}><Image source={require("./images/avatars/logOut2.png")} style={styles.viewPower}/></View>
         </TouchableOpacity>
       </View>
       <View style={styles.view2}>
@@ -102,7 +102,7 @@ function startAgain(){
           <View style={styles.view8}>
             <Text style={styles.text4}>{item.time}</Text>
             <View style={styles.view10}>
-              {item.status!="null"?<Icon name="checkcircleo" color={item.status!='seen'?"#707070":"#5271FF"} size={20}/>:null}
+              {item.status!="null"?<Icon name="checkcircleo" color={item.status!='seen'?"#707070":"blue"} size={20}/>:null}
               <View style={styles.view11}>
                 <Text style={styles.text5}>{item.count}</Text>
               </View>
@@ -127,22 +127,34 @@ function startAgain(){
 
 
 const styles = StyleSheet.create({ 
-  viewPower:{
-    height:50,
-    width:50,
-    backgroundColor:"white",
-    borderRadius:30,
+  logOutView:{
+    height:60,
+    width:60,
     alignItems:"center",
-    justifyContent:"center", 
-    borderColor:"#E4E4E4",   
     borderWidth:1,
+    borderColor:"#707070" ,
+    borderRadius:30,
+    top:-5  ,
+    backgroundColor:"blue" 
+  },
+  dp:{
+    height:59,
+    width:59,    
+    borderRadius:30,    
+  },
+  viewPower:{
+    height:45,
+    width:45,  
+    marginTop:4,
+    top:5 ,
+    start:5
   },
   avatarBack:{
-    height:55,
+    height:60,
     width:55,
     alignItems:"center",
     justifyContent:"center",
-    backgroundColor:"#F3F6FF",
+    backgroundColor:"#707070",
     borderRadius:50,
   },
   text5:{
@@ -181,7 +193,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     justifyContent:"center", 
     borderRadius:30,
-    backgroundColor:"#5271FF"
+    
   },
   view9:{
     borderBottomWidth:1,
@@ -212,14 +224,13 @@ const styles = StyleSheet.create({
     rowGap:5    
   },
   view5:{
-    height:60,
-    width:60,
+    height:61,
+    width:61,
     backgroundColor:"white",
     borderRadius:30,
-    alignItems:"center",
-    justifyContent:"center", 
-    borderColor:"#E4E4E4",   
+    alignItems:"center",      
     borderWidth:1,
+    borderColor:"#90BBFB",
   },
   profileView:{
     height:40,
@@ -241,7 +252,7 @@ const styles = StyleSheet.create({
     zIndex:1,
   },
   menuView:{
-    height:40,
+    height:50,
     width:"18%",     
     alignItems:"center",
     justifyContent:"center",

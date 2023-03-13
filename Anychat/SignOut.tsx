@@ -22,8 +22,8 @@ export function SignOut({navigation}){
       'user':{'id':""}
     };
     AsyncStorage.setItem(`user`,JSON.stringify(user));
-    const obj ={};
-    navigation.navigate("SignIn",);
+    //const obj ={'task':'reSign'};
+    navigation.navigate("Splash");
   }
   
   const ui = (

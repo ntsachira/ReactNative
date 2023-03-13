@@ -4,15 +4,18 @@ import {
   SafeAreaView, 
   StyleSheet, 
   Text,
-  Alert
+  Alert,
+  TouchableOpacity
   } 
 from 'react-native';
 import { SignUp } from "./SignUp";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Icon } from "react-native-vector-icons/Icon";
 
 
 
-export function Splash({navigation}){
+export function Splash({navigation,route}){
+  
 
  
   async function checkUser() {
@@ -22,7 +25,7 @@ export function Splash({navigation}){
     if(user!=null){
 
       const userJs = JSON.parse(user);
-      //Alert.alert("Message",userJs.log);
+     
       const screen = userJs.log!="signout"?"Home":"SignIn";
       navigation.navigate(screen);
 
@@ -39,14 +42,23 @@ export function Splash({navigation}){
 
   const ui = ( 
     <SafeAreaView style={styles.main}>
-      <Image source={require("./images/logo1.png")} style={styles.image1}/>
-      <Text style={styles.text1}>Anychat</Text>
+      <TouchableOpacity style={styles.main} onPress={()=>{navigation.navigate("SignIn")}}>
+        <Image source={require("./images/logo1.png")} style={styles.image1}/>
+        <Text style={styles.text1}>Anychat</Text>
+      </TouchableOpacity>
+      
     </SafeAreaView>
   );
   return ui;
+  
+  
 }
 
 const styles = StyleSheet.create({
+  image2:{
+    height:50,
+    width:50,    
+  },
   image1:{
     height:90,
     width:100,    

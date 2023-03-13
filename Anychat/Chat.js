@@ -129,7 +129,7 @@ function messageList({item}){
               </View>
               <View style={styles.messageView4}>
                 <Text style={styles.chatText2}>{item.time}</Text>
-                {item.side=='right'?<Icon name="ios-checkmark-circle-outline" color={item.status=='seen'?"#5271FF":"gray"} size={20}/>:null}
+                {item.side=='right'?<Icon name="ios-checkmark-circle-outline" color={item.status=='seen'?"blue":"gray"} size={20}/>:null}
               </View>
             </View>
           </View> 

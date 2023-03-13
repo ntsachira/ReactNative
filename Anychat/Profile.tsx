@@ -9,9 +9,12 @@ import {
   Touchable,
   TouchableOpacity,
   View,
+  Alert
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function Profile(){
   const info =[
@@ -40,6 +43,31 @@ export function Profile(){
       'size':20,      
     },
   ];
+  const [profileImage,setProfileImage] = useState(null);
+
+  async function selectProfilePicture(){
+    
+    const options={
+      "mediaType":"photo"
+    };
+
+    const result = await launchImageLibrary(options);
+
+    if(result.didCancel){
+      Alert.alert("Message","No Image selected");
+    }else{
+     const imageObject = {
+        "uri":result.assets[0].uri,
+        "name":"profile.png",
+        "type":"image/png",
+      };
+
+      setProfileImage(imageObject);
+      //loadSignUp(0);
+      
+    }
+  
+  }
   const ui = (
     <SafeAreaView style={styles.main}>
       <Image source={require("./images/logo1Large.png")} style={styles.image1}/>
@@ -47,8 +75,18 @@ export function Profile(){
         <Image source={require("./images/logo1.png")} style={styles.appIcon}/>
       </View>
       <View style={styles.view2}>
-        <View style={styles.view3}>                  
-            <TouchableOpacity style={styles.view5} activeOpacity={0.6}>
+        <View style={styles.view3}>  
+           <TouchableOpacity style={styles.view5} onPress={selectProfilePicture}>
+              <View style={styles.dpBack}>
+                <View style={styles.dpView}>
+                <Image source={{uri:"http://192.168.1.189/anychat/avatars/avatar2.png"}} style={styles.avatarBack}/>
+                </View>
+                <View style={styles.imageSelector}>
+                  <Icon name="camera" color="black" size={15}/>
+                </View>
+              </View>
+            </TouchableOpacity>                
+            {/* <TouchableOpacity style={styles.view5} activeOpacity={0.6}>
               <View style={styles.dpBack}>
                 <View style={styles.dpView}>
                   <Icon name="user" size={60} color="black"/>
@@ -57,7 +95,7 @@ export function Profile(){
                   <Icon name="camera" color="black" size={15}/>
                 </View>
               </View>
-            </TouchableOpacity>   
+            </TouchableOpacity>    */}
                          
             <FlatList data={info} renderItem={loadInfo}/>
             

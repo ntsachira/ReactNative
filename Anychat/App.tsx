@@ -16,6 +16,7 @@ import { ChangeName } from "./ChangeName";
 import { ChangePassword } from "./ChangePassword";
 import { SelectCountry } from "./SelectCountry";
 import { Icon } from "react-native-vector-icons/Icon";
+import { ReSign } from "./ReSign";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,18 +51,19 @@ function App(){
               headerTintColor:"white",
               headerTitleStyle:{fontFamily:"RighteousRegular",fontSize:27},
               headerShown:true,
-              freezeOnBlur:true
+              
             }
           }
           />
-        <Stack.Screen name="SignOut" component={SignOut} />
+        <Stack.Screen name="SignOut" component={SignOut} />        
         <Stack.Screen name="Chat" component={Chat}  />
         <Stack.Screen name="NewChat" component={NewChat} />
         <Stack.Screen name="FriendProfileView" component={FriendProfileView} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="ChangeName" component={ChangeName} />
-        <Stack.Screen name="ChangePassword" component={ChangePassword} options={{animation:"fade",}} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} />
         <Stack.Screen name="SelectCountry" component={SelectCountry} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
