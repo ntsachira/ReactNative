@@ -74,6 +74,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
     request.send(formData); 
    
     }  
+
+    function loadFriendProfileView(){
+      
+      navigation.navigate("FriendProfileView",route.params);
+    }
   
   const ui = (
     <SafeAreaView style={styles.main}>      
@@ -82,7 +87,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
          <Icon name="ios-chevron-back-circle" size={50} /> 
         </TouchableOpacity>              
         <View style={styles.nameView}><Text style={styles.text5}>{route.params.name}</Text></View>
-        <TouchableOpacity style={styles.profileView} onPress={()=>{navigation.navigate("FriendProfileView");}}>
+        <TouchableOpacity style={styles.profileView} onPress={loadFriendProfileView}>
             <View style={styles.view5}>
               <Image source={{uri:"http://192.168.1.189/anychat/avatars/"+route.params.img+".png"}} style={styles.avatarBack} />
             </View>

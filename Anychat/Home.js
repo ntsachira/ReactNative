@@ -16,74 +16,74 @@ import Icon from 'react-native-vector-icons/dist/AntDesign';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function Home({navigation}){
-  const [items, setItems] = useState([]);
- const [dp,setDp] = useState("avatar7");
 
- const [appIcon,setAppIcon] =useState("logo1");
- const [appBak,setAppBak] =useState("black");
+  const [items, setItems] = useState([]);
+  const [dp,setDp] = useState("avatar7");
+  
 
   async function loadUsers(searchText){   
+    
     var userJSONText = await AsyncStorage.getItem('user');
     var text =JSON.parse(userJSONText);
    
     setDp(text.user.profile_url);
+
     const form= new FormData();
     form.append("userJson",userJSONText);
     form.append("searchText",searchText);
     form.append("users","old");
+
       var request = new XMLHttpRequest();
       request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
           setItems(JSON.parse(request.responseText));
-         //Alert.alert("Message",request.responseText);
-        //  if(appIcon=="logo1"){
-        //   setAppIcon("logoBlack");
-        //  }else{
-        //   setAppIcon("logo1");
-        //  }
+         
          
         }
       };
       request.open('POST', 'http://192.168.1.189/anychat/load_users.php', true);
       request.send(form); 
-
   }
 
   function start(){
-    loadUsers("");
-    
+    loadUsers("");    
   }
-function startAgain(){
-  loadUsers("");
+  function startAgain(){
+    loadUsers("");
   
-  setInterval(start,3000);
-}
- 
+    setInterval(start,3000);  
+  } 
 
   useEffect(startAgain,[]);
 
-  function signout(){
-    
-    navigation.navigate("SignOut",);
+  function loadProfile(){
+    navigation.navigate("Profile");
   }
 
   const ui = (
     <SafeAreaView style={styles.main}> 
       <View style={styles.iconView}>
-        <View style={styles.iconBackView}><Image source={{uri:"http://192.168.1.189/anychat/"+appIcon+".png"}} style={styles.iconImage}/></View>        
+        <View style={styles.iconBackView}><Image source={{uri:"http://192.168.1.189/anychat/logo1.png"}} style={styles.iconImage}/></View>        
         <Text style={styles.iconText}>NY CHAT</Text>
       </View>     
       <View style={styles.view1}>
         <TouchableOpacity 
-        style={styles.menuView} 
-        activeOpacity={0.5}
-        onPress={()=>{navigation.navigate("Profile")}}
-        >
+          style={styles.menuView} 
+          activeOpacity={0.5}
+          onPress={()=>{navigation.navigate("Profile")}}
+          >
           <View style={styles.view5}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+dp+".png"}} style={styles.dp}/></View>
         </TouchableOpacity>
-        <TextInput style={styles.input1} placeholder="Search chat list" placeholderTextColor={"gray"} onChangeText={(text)=>{loadUsers(text)}}/>
-        <TouchableOpacity style={styles.profileView} activeOpacity={0.5} onPress={signout}>
-          <View style={styles.logOutView}><Image source={require("./images/avatars/logOut2.png")} style={styles.viewPower}/></View>
+        <TextInput 
+          style={styles.input1} 
+          placeholder="Search chat list" 
+          placeholderTextColor={"gray"} 
+          onChangeText={(text)=>{loadUsers(text)}}
+        />
+        <TouchableOpacity style={styles.profileView} activeOpacity={0.5} onPress={()=>{ navigation.navigate("SignOut")}}>
+          <View style={styles.logOutView}>
+            <Image source={require("./images/avatars/logOut2.png")} style={styles.viewPower}/>
+          </View>
         </TouchableOpacity>
       </View>
       <View style={styles.view2}>
@@ -91,7 +91,7 @@ function startAgain(){
           <View style={styles.view4}>
             <FlatList data={items} renderItem={chatUI}/>
           </View>          
-          <TouchableOpacity style={appIcon=="logoBlack"?styles.button3:styles.button31} activeOpacity={0.7} onPress={()=>{navigation.navigate("NewChat")}}>
+          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={()=>{navigation.navigate("NewChat")}}>
               <Text style={styles.text3}>Start a new chat</Text>
           </TouchableOpacity>
         </View>
@@ -125,8 +125,16 @@ function startAgain(){
     function m(){
       //Alert.alert("Message",item.name);
   
-      const obj = {"name":item.name,"id":item.id,"img":item.dpName};
+      const obj = {
+        "name":item.name,
+        "id":item.id,
+        "img":item.dpName,
+        "country":item.country,
+        'mobile':item.mobile,
+        'birthday':item.birthday,
+      };
       navigation.navigate("Chat",obj);
+      
     }
   }
 
@@ -135,34 +143,19 @@ function startAgain(){
 
 
 
-const styles = StyleSheet.create({ 
-  button31:{
-    width:"50%",
-    backgroundColor:"blue",
-    alignItems:"center",
-    justifyContent:"center",
-    height:60,
-    borderRadius:30,  
-    zIndex:1,
-    position:"absolute",
-    bottom:30,
-    borderColor:"black",   
-    borderBottomWidth:1,  
-    borderLeftWidth:1,
-    borderRightWidth:1,
-  },
-  
+const styles = StyleSheet.create({  
   iconBackView:{
     height:40,
     width:43,
     backgroundColor:"white",
     borderRadius:20,
-    start:-2
+    start:-2,
+    elevation:8
   },
   iconText:{
     color:"white",
     fontSize:30,
-    fontFamily:"RighteousRegular",
+    fontFamily:"RighteousRegular",    
   },
   iconView:{
     flexDirection:"row",
@@ -176,19 +169,19 @@ const styles = StyleSheet.create({
   iconImage:{
     height:35,
     width:35, 
-    start:3   
+    start:3,    
   },
   logOutView:{
     height:60,
     width:60,
     alignItems:"center",    
     borderRadius:30,
-    top:-5  ,    
+    top:-5,     
   },
   dp:{
-    height:59,
-    width:59,    
-    borderRadius:30,    
+    height:57,
+    width:57,    
+    borderRadius:30,        
   },
   viewPower:{
     height:45,
@@ -201,8 +194,7 @@ const styles = StyleSheet.create({
     height:60,
     width:60,
     alignItems:"center",
-    justifyContent:"center",
-    backgroundColor:"#707070",
+    justifyContent:"center",   
     borderRadius:50,
   },
   text5:{
@@ -240,8 +232,7 @@ const styles = StyleSheet.create({
     width:60,    
     alignItems:"center",
     justifyContent:"center", 
-    borderRadius:30,
-    
+    borderRadius:30,    
   },
   view9:{
     borderBottomWidth:1,
@@ -253,7 +244,8 @@ const styles = StyleSheet.create({
     backgroundColor:"white",
     borderLeftWidth:1,
     paddingRight:5,
-    borderBottomRightRadius:0
+    borderBottomRightRadius:0,
+    
   },
   view6:{    
     width:"20%",
@@ -276,22 +268,23 @@ const styles = StyleSheet.create({
     width:61,
     backgroundColor:"white",
     borderRadius:30,
-    alignItems:"center",      
+    alignItems:"center", 
+    justifyContent:"center",     
     borderWidth:1,
-    borderColor:"#90BBFB",
+    borderColor:"white",
+    elevation:9
   },
   profileView:{
     height:40,
     width:"18%",    
     alignItems:"center",
     justifyContent:"center", 
-       
+    
   },
   input1:{
     height:50,
     width:"64%",
-    borderWidth:1,
-    borderColor:"#E4E4E4",
+    
     color:"black",
     borderRadius:25,
     backgroundColor:"white",
@@ -325,11 +318,9 @@ const styles = StyleSheet.create({
     borderRadius:30,  
     zIndex:1,
     position:"absolute",
-    bottom:30,
-    borderColor:"#A8A7A7",   
-    borderBottomWidth:1,  
-    borderLeftWidth:1,
-    borderRightWidth:1,
+    bottom:30,    
+    elevation:25,
+    
   },
   
   view3:{    
@@ -337,13 +328,15 @@ const styles = StyleSheet.create({
     alignItems:"center",    
     borderRadius:34,    
     backgroundColor:"white", 
-    height:"100%"  ,
-    overflow:"hidden"        
+    height:"85%"  ,
+    overflow:"hidden",
+    
   },
   view2:{    
     width:"100%",
-    alignItems:"center",      
-    height:710 
+    justifyContent:"flex-end",      
+    height:"100%",
+    zIndex:-1
   },
   view1:{    
     width:"100%",
@@ -353,7 +346,9 @@ const styles = StyleSheet.create({
     flexDirection:"row", 
     backgroundColor:"#5271FF", 
     paddingBottom:20  ,
-      
+    elevation:9,
+    position:"absolute"
+    
     
   },
   main:{

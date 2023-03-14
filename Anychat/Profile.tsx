@@ -17,37 +17,44 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function Profile({navigation}){
+  const [profileImage,setProfileImage] = useState(null);
+  const [mobile,setMobile] = useState("");   
+  const [name,setName] = useState("");
+  const [country, setCountry] = useState("");
+  const [birthday, setBirthday] = useState("-Set your birthday-");
+  const [dp,setDp] = useState(null);
+
   const info =[
     {
       'icon':'user',
       'topic':'Name',
-      'value':'Sachira Jayawardana', 
+      'value':name, 
       'size':25, 
       'navigate':'ChangeName' 
     },
     {
       'icon':'globe',
       'topic':'Country',
-      'value':'Sri Lanka', 
+      'value':country, 
       'size':25,      
       'navigate':'SelectCountry' 
     },
     {
       'icon':'mobile',
       'topic':'Mobile',
-      'value':'0714798940',  
+      'value':mobile,  
       'size':30,  
       'navigate':'ChangeName'    
     },
     {
       'icon':'calendar',
       'topic':'Birthday',
-      'value':'Hidden', 
+      'value':birthday, 
       'size':20,    
       'navigate':'ChangeName'   
     },
   ];
-  const [profileImage,setProfileImage] = useState(null);
+
 
   async function selectProfilePicture(){
     
@@ -72,6 +79,26 @@ export function Profile({navigation}){
     }
   
   }
+
+  async function loadUsers(){   
+    
+    var userJSONText = await AsyncStorage.getItem('user');
+    var text =JSON.parse(userJSONText);
+    var user = text.user;
+    setName(user.username);
+    if(user.birthday!=null){
+      setBirthday(user.birthday);
+    }
+    setMobile(user.mobile);
+    setCountry(text.country);
+    setDp(user.profile_url);
+  }
+
+  function start(){
+    loadUsers();    
+  }
+  useEffect(start,[]);
+  
   const ui = (
     <SafeAreaView style={styles.main}>
       <Image source={require("./images/logo1Large.png")} style={styles.image1}/>
@@ -83,7 +110,7 @@ export function Profile({navigation}){
            <TouchableOpacity style={styles.view5} onPress={selectProfilePicture}>
               <View style={styles.dpBack}>
                 <View style={styles.dpView}>
-                <Image source={{uri:profileImage!=null?profileImage.uri:"http://192.168.1.189/anychat/avatars/avatar2.png"}} style={styles.avatarBack}/>
+                <Image source={{uri:profileImage!=null?profileImage.uri:"http://192.168.1.189/anychat/avatars/"+dp+".png"}} style={styles.avatarBack}/>
                 </View>
                 <View style={styles.imageSelector}>
                   <Icon name="camera" color="white" size={20}/>
@@ -145,7 +172,7 @@ const styles = StyleSheet.create({
   },
   button2:{
     width:"80%",
-    backgroundColor:"red",
+    backgroundColor:"black",
     height:50,
     justifyContent:"center",
     alignItems:"center",
@@ -153,7 +180,7 @@ const styles = StyleSheet.create({
   }, 
   button3:{
     width:"80%",
-    backgroundColor:"black",
+    backgroundColor:"red",
     height:50,
     justifyContent:"center",
     alignItems:"center",

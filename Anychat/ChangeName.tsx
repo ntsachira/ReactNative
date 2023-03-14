@@ -14,6 +14,8 @@ from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 
 export function ChangeName({navigation}){
+
+  const [name,setName] = useState("");
   
   const ui = (
     <SafeAreaView style={styles.main}>
