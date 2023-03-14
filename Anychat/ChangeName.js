@@ -9,13 +9,50 @@ import {
   Touchable,
   TouchableOpacity,
   View,
+  Alert
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function ChangeName({navigation}){
 
   const [name,setName] = useState("");
+  const [mobile,setMobile] = useState("");   
+
+  async function loadUsers(){       
+    var userJSONText = await AsyncStorage.getItem('user');
+    var text =JSON.parse(userJSONText);
+    var user = text.user;
+    setName(user.username);    
+    setMobile(user.mobile);   
+  }
+
+  function start(){loadUsers()}
+
+  useEffect(start,[]);
+
+function updateName(){
+    
+    const form= new FormData(); 
+    form.append("mobile",mobile);
+    form.append("newValue",name);
+    form.append("column","username");
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+      if (request.readyState == 4 && request.status == 200) {
+          AsyncStorage.setItem('user',request.responseText);
+          navigation.navigate("Profile");
+       Alert.alert("Message","Name updated successfully");
+       
+      }
+    };
+    request.open('POST', 'http://192.168.1.189/anychat/updateDetails.php', true);
+    request.send(form); 
+  }
+
+  
   
   const ui = (
     <SafeAreaView style={styles.main}>
@@ -30,10 +67,10 @@ export function ChangeName({navigation}){
             <Text style={styles.text1}>Edit your name</Text>
           </View>
           <View style={styles.view7}> 
-            <TextInput style={styles.input1} defaultValue={"Sachira Jayawardana"}/>           
+            <TextInput style={styles.input1} defaultValue={name} onChangeText={setName}/>           
           </View>
           <View style={styles.view8}>
-            <TouchableOpacity style={styles.button1} activeOpacity={0.6}>
+            <TouchableOpacity style={styles.button1} activeOpacity={0.6} onPress={updateName}>
               <Text style={styles.btnText1}>Save</Text>
             </TouchableOpacity>                          
             <TouchableOpacity  style={styles.button3} activeOpacity={0.6} onPress={()=>{navigation.navigate("Profile")}}>

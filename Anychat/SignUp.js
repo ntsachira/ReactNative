@@ -188,7 +188,7 @@ export function SignUp({navigation,route}){
                 <Icon name="globe" color="white" size={25}/>
               </View>    
            
-              <View style={{justifyContent:"center",width:"91%",paddingLeft:20,zIndex:-1}}>
+              <View style={{justifyContent:"center",width:"91%",paddingLeft:20,zIndex:-1,}}>
               <Dropdown            
             value={countryId}
             data={countryArray}
@@ -287,8 +287,8 @@ const styles = StyleSheet.create({
     backgroundColor:"#5271FF",
     alignItems:"center",
     justifyContent:"center",
-    height:48,
-    borderRadius:24,
+    height:50,
+    borderRadius:25,
     marginBottom:15,
     marginTop:10,
     flexDirection:"row"

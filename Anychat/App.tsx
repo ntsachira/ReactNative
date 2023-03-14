@@ -15,6 +15,8 @@ import { Profile } from "./Profile";
 import { ChangeName } from "./ChangeName";
 import { ChangePassword } from "./ChangePassword";
 import { SelectCountry } from "./SelectCountry";
+import { ChangeMobile } from "./changeMobile";
+import { UpdateBirthday } from "./UpdateBirthday";
 import { Icon } from "react-native-vector-icons/Icon";
 import { ReSign } from "./ReSign";
 
@@ -48,7 +50,9 @@ function App(){
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="ChangeName" component={ChangeName} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen name="UpdateBirthday" component={UpdateBirthday} />
         <Stack.Screen name="SelectCountry" component={SelectCountry} />
+        <Stack.Screen name="ChangeMobile" component={ChangeMobile} />
         
       </Stack.Navigator>
     </NavigationContainer>

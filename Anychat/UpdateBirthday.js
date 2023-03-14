@@ -9,41 +9,53 @@ import {
   Touchable,
   TouchableOpacity,
   View,
+  Alert
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
-import Dropdown from '@febfeb/react-native-dropdown';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import DatePicker from 'react-native-date-picker'
 
-export function SelectCountry({navigation}){  
-  const fruits = [
-    { id: 1, label: 'Apple'},
-    { id: 2, label: 'Orange'},
-    { id: 4, label: 'Pineapple'},
-    { id: 5, label: 'Sri Lanka'},
-    { id: 6, label: 'India'},
-    { id: 7, label: 'Japan'},
-];
+export function UpdateBirthday({navigation}){
 
-const [fruit, setFruit] = useState(1);
-const [countryArray,setCountryArray] = useState([]);
+  const [birthday,setBirthday] = useState("");
+  const [mobile,setMobile] = useState("");   
+  const [date, setDate] = useState(new Date());
 
-function loadCountries(){   
-  const request = new XMLHttpRequest();
-  request.onreadystatechange = function(){
-    if(request.readyState==4 && request.status==200){
-      //Alert.alert(request.responseText);
-      const jsResponseObject = JSON.parse(request.responseText);
-      setCountryArray(jsResponseObject);
-    }
-  };
-  request.open("GET","http://192.168.1.189/anychat/loadCountries.php",true);
-  request.send();
-}
-function startLoadCountries(){
-  loadCountries();
-}
-useEffect(startLoadCountries,[]);
+  async function loadUsers(){       
+    var userJSONText = await AsyncStorage.getItem('user');
+    var text =JSON.parse(userJSONText);
+    var user = text.user;     
+    setMobile(user.mobile); 
+    setBirthday(user.birthday);  
+  }
 
+  function start(){loadUsers()}
+
+  useEffect(start,[]);
+
+function updateBirthday(){
+   
+    const form= new FormData(); 
+    form.append("mobile",mobile);
+    form.append("jsonDate",JSON.stringify(date));
+    //form.append("column","birthday");
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+      if (request.readyState == 4 && request.status == 200) {
+        AsyncStorage.setItem('user',request.responseText);
+        navigation.navigate("Profile");
+        Alert.alert("Message","Birthday successfully updated.");
+       
+      }
+    };
+    request.open('POST', 'http://192.168.1.189/anychat/updateBirthday.php', true);
+    request.send(form); 
+  }
+
+  
+  
   const ui = (
     <SafeAreaView style={styles.main}>
       <Image source={require("./images/logo1Large.png")} style={styles.image1}/>
@@ -54,39 +66,19 @@ useEffect(startLoadCountries,[]);
       <View style={styles.view2}>
         <View style={styles.view3}>
           <View style={styles.view6}>            
-            <Text style={styles.text1}>Edit your country</Text>
+            <Text style={styles.text1}>Select your birthday</Text>
           </View>
-          
-          <View style={styles.view7}>             
-          <Dropdown            
-            value={fruit}
-            data={countryArray}
-            onChange={(val) => { setFruit(val);}}
-            theme={{
-              boxStyle: {
-              borderRadius:0,
-              borderBottomColor: '#5271FF',                
-              borderColor:"white", 
-              marginBottom:40               
-              },
-              textContentStyle: {
-              color: 'black',
-              },             
-              modalContentStyle: {
-              borderRadius:34,
-              width:"90%",              
-              },              
-              searchWrapperStyle: {
-              borderRadius:20,
-              height:40,                          
-            },              
-            }}
-            showSearchBar={true}
-            
-            />
+          <View style={styles.view7}> 
+          {/*date picker*/}
+            <DatePicker 
+                date={date} 
+                onDateChange={setDate} 
+                mode={"date"}
+                androidVariant={"nativeAndroid"}
+            />           
           </View>
           <View style={styles.view8}>
-            <TouchableOpacity style={styles.button1} activeOpacity={0.6}>
+            <TouchableOpacity style={styles.button1} activeOpacity={0.6} onPress={updateBirthday}>
               <Text style={styles.btnText1}>Save</Text>
             </TouchableOpacity>                          
             <TouchableOpacity  style={styles.button3} activeOpacity={0.6} onPress={()=>{navigation.navigate("Profile")}}>
@@ -102,7 +94,15 @@ useEffect(startLoadCountries,[]);
 
 
 const styles = StyleSheet.create({  
-  
+  input1:{
+    width:"80%",
+    borderBottomColor:"#5271FF",
+    paddingVertical:10,
+    height:40,  
+    borderBottomWidth:1, 
+    padding:0, 
+    fontSize:16   
+  },
   opacView:{
     position:"absolute",
     height:"100%",
@@ -141,16 +141,19 @@ const styles = StyleSheet.create({
     paddingTop:20
   },
   view7:{
-    width:"80%",    
-    justifyContent:"center",     
+    width:"100%",    
+    justifyContent:"center", 
+    flexDirection:"row", 
+    columnGap:7, 
+    marginBottom:20,
   }, 
   view6:{     
-    width:"80%",  
-    marginBottom:15,      
+    width:"80%",        
   },  
   text1:{       
     color:"#5271FF",
     fontSize:20,
+    
   },
   text2:{
     fontSize:14,    

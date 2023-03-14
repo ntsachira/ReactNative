@@ -44,14 +44,14 @@ export function Profile({navigation}){
       'topic':'Mobile',
       'value':mobile,  
       'size':30,  
-      'navigate':'ChangeName'    
+      'navigate':'ChangeMobile'    
     },
     {
       'icon':'calendar',
       'topic':'Birthday',
       'value':birthday, 
       'size':20,    
-      'navigate':'ChangeName'   
+      'navigate':'UpdateBirthday'   
     },
   ];
 
@@ -97,7 +97,13 @@ export function Profile({navigation}){
   function start(){
     loadUsers();    
   }
-  useEffect(start,[]);
+  function startAgain(){
+    loadUsers();
+  
+    setInterval(start,3000);  
+  } 
+
+  useEffect(startAgain,[]);
 
   function updateDp(){
     if(profileImage==null){
@@ -114,8 +120,9 @@ export function Profile({navigation}){
       request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
             AsyncStorage.setItem(`user`,request.responseText);
+           
             navigation.navigate("Home");
-         
+         Alert.alert("Message","Profile information updated.");
          
         }
       };

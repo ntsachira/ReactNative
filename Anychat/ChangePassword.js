@@ -13,10 +13,64 @@ import {
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
-import Dropdown from '@febfeb/react-native-dropdown';
-import { ChangeName } from "./ChangeName";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
 
 export function ChangePassword({navigation}){  
+
+  const [password,setPassword] = useState("");
+  const [newPassword,setNewPassword] = useState("");
+  const [confirmNewPassword,setConfirmNewPassword] = useState("");
+
+  const [passwordError,setPasswordError] = useState("");
+  const [newPasswordError,setNewPasswordError] = useState("");
+  const [confirmPasswordError,setConfirmPasswordError] = useState("");
+
+  async function updateName(){
+    var userJSONText = await AsyncStorage.getItem('user');
+    var text =JSON.parse(userJSONText);
+    var user = text.user;
+    if(password!=""){
+      if(password==user.password){
+        setPasswordError("");
+        if(newPassword!=""){
+          setNewPasswordError("");
+          if(newPassword==confirmNewPassword){
+
+            setConfirmPasswordError("");
+
+            const form= new FormData(); 
+            form.append("mobile",user.mobile);
+            form.append("newValue",newPassword);   
+            form.append("column","password");         
+
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                AsyncStorage.setItem('user',request.responseText);
+                navigation.navigate("Profile");
+                Alert.alert("Message","Password updated successfully");
+       
+              }
+            };
+            request.open('POST', 'http://192.168.1.189/anychat/updateDetails.php', true);
+            request.send(form);
+          }else{
+            setConfirmPasswordError("Password not matched");
+          }
+        }else{
+          setNewPasswordError("Empty field");
+        }
+      }else{
+        setPasswordError("Password not matched");
+      }    
+    }else {
+      setPasswordError("Empty field");      
+    }    
+     
+  }
+
   const ui = (
     <SafeAreaView style={styles.main}>
       <Image source={require("./images/logo1Large.png")} style={styles.image1}/>
@@ -30,12 +84,30 @@ export function ChangePassword({navigation}){
           <View style={styles.view6}>            
             <Text style={styles.text1}>Change password</Text>
           </View>
-            <TextInput style={styles.input1} placeholder={"Enter old password"}/>  
-            <TextInput style={styles.input1} placeholder={"Enter new password"}/>
-            <TextInput style={styles.input1} placeholder={"Confirm new password"}/>         
+            <TextInput 
+              style={styles.input1} 
+              placeholder={"Enter old password"}
+              onChangeText={setPassword}
+            />    
+            <Text style={{alignSelf:"flex-end",fontSize:12,color:"red",end:20}}>{passwordError}</Text>         
+            <TextInput 
+              style={styles.input1} 
+              placeholder={"Enter new password"}
+              onChangeText={setNewPassword}
+            />
+            <Text style={{alignSelf:"flex-end",fontSize:12,color:"red",end:20}}>{newPasswordError}</Text>   
+            <TextInput 
+              style={styles.input1} 
+              placeholder={"Confirm new password"}
+              onChangeText={setConfirmNewPassword}
+            />         
+            <Text style={{alignSelf:"flex-end",fontSize:12,color:"red",end:20}}>{confirmPasswordError}</Text>   
           </View>
           <View style={styles.view8}>
-            <TouchableOpacity style={styles.button1} activeOpacity={0.6} onPress={()=>{Alert.alert("Alert !","This facility not is not supported yet.")}}>
+            <TouchableOpacity 
+              style={styles.button1} 
+              activeOpacity={0.6} 
+              onPress={()=>{updateName()}}>
               <Text style={styles.btnText1}>Save</Text>
             </TouchableOpacity>                          
             <TouchableOpacity  style={styles.button3} activeOpacity={0.6} onPress={()=>{navigation.navigate("Profile")}}>
@@ -102,7 +174,7 @@ const styles = StyleSheet.create({
   view7:{
     width:"100%",    
     alignItems:"center",     
-    rowGap:20, 
+    
     marginBottom:20,
   }, 
   view6:{     

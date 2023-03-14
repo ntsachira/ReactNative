@@ -17,6 +17,7 @@
     "react": "18.2.0",
     "react-native": "0.71.4",
     "react-native-countries-sel": "^1.0.3",
+    "react-native-date-picker": "^4.2.9",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-image-picker": "^5.1.0",

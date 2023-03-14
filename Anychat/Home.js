@@ -16,14 +16,14 @@ import Icon from 'react-native-vector-icons/dist/AntDesign';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Profile } from "./Profile";
 
-export function Home({navigation}){
+export function Home({navigation,route}){
 
   const [items, setItems] = useState([]);
   const [dp,setDp] = useState("http://192.168.1.189/anychat/avatars/avatar7.png");
-  
+ 
 
   async function loadUsers(searchText){   
-    
+    var reload = 0;//to clear interval
     var userJSONText = await AsyncStorage.getItem('user');
     var text =JSON.parse(userJSONText);    
     var url = text.user.profile_url;
@@ -56,7 +56,7 @@ export function Home({navigation}){
   function startAgain(){
     loadUsers("");
   
-    setInterval(start,3000);  
+    reload = setInterval(start,3000);  
   } 
 
   useEffect(startAgain,[]);
@@ -81,7 +81,7 @@ export function Home({navigation}){
           style={styles.input1} 
           placeholder="Search chat list" 
           placeholderTextColor={"gray"} 
-          onChangeText={(text)=>{loadUsers(text)}}
+          onChangeText={(text)=>{loadUsers(text);clearInterval(reload)}}
         />
         <TouchableOpacity style={styles.profileView} activeOpacity={0.5} onPress={()=>{ navigation.navigate("SignOut")}}>
           <View style={styles.logOutView}>
@@ -183,9 +183,10 @@ const styles = StyleSheet.create({
     top:-5,     
   },
   dp:{
-    height:57,
-    width:57,    
-    borderRadius:30,        
+    height:55,
+    width:55,    
+    borderRadius:28,
+    start:4,        
   },
   viewPower:{
     height:45,
@@ -267,17 +268,7 @@ const styles = StyleSheet.create({
     paddingRight:5,
     rowGap:5    
   },
-  view5:{
-    height:61,
-    width:61,
-    backgroundColor:"white",
-    borderRadius:30,
-    alignItems:"center", 
-    justifyContent:"center",     
-    borderWidth:1,
-    borderColor:"white",
-    elevation:9
-  },
+ 
   profileView:{
     height:40,
     width:"18%",    
@@ -287,14 +278,14 @@ const styles = StyleSheet.create({
   },
   input1:{
     height:50,
-    width:"64%",
-    
+    width:"66%",    
     color:"black",
     borderRadius:25,
     backgroundColor:"white",
     paddingLeft:20,
     fontSize:16,
     zIndex:1,
+    start:5
   },
   menuView:{
     height:50,
@@ -323,8 +314,7 @@ const styles = StyleSheet.create({
     zIndex:1,
     position:"absolute",
     bottom:30,    
-    elevation:25,
-    
+    elevation:25,    
   },
   
   view3:{    
@@ -332,14 +322,13 @@ const styles = StyleSheet.create({
     alignItems:"center",    
     borderRadius:34,    
     backgroundColor:"white", 
-    height:"85%"  ,
-    overflow:"hidden",
-    
+    height:"100%"  ,
+    overflow:"hidden",    
   },
   view2:{    
     width:"100%",
     justifyContent:"flex-end",      
-    height:"100%",
+    height:710,
     zIndex:-1
   },
   view1:{    
@@ -350,10 +339,7 @@ const styles = StyleSheet.create({
     flexDirection:"row", 
     backgroundColor:"#5271FF", 
     paddingBottom:20  ,
-    elevation:9,
-    position:"absolute"
-    
-    
+    elevation:9,    
   },
   main:{
     flex:1,    
