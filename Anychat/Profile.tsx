@@ -98,9 +98,38 @@ export function Profile({navigation}){
     loadUsers();    
   }
   useEffect(start,[]);
+
+  function updateDp(){
+    if(profileImage==null){
+      Alert.alert("Message","No any changes");
+      navigation.navigate("Home");
+    }else{
+      //Alert.alert("Message","New Profile image detected");
+      const form= new FormData();    
+      form.append("profileImage",profileImage);
+      form.append("mobile",mobile);
+      form.append("url",dp);
+      var request = new XMLHttpRequest();
+
+      request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+            AsyncStorage.setItem(`user`,request.responseText);
+            navigation.navigate("Home");
+         
+         
+        }
+      };
+      request.open('POST', 'http://192.168.1.189/anychat/updateDp.php', true);
+      request.send(form); 
+    }
+      
+  }
   
   const ui = (
     <SafeAreaView style={styles.main}>
+      <TouchableOpacity style={{start:8,zIndex:2,position:"absolute",top:15,opacity:0.6}} hitSlop={30} onPress={()=>{navigation.navigate("Home");}}>
+      <Image source={require("./images/back.png")} style={{height:50,width:50}}/>
+        </TouchableOpacity> 
       <Image source={require("./images/logo1Large.png")} style={styles.image1}/>
       <View style={styles.view1}>
         <Image source={require("./images/logo1.png")} style={styles.appIcon}/>
@@ -110,7 +139,7 @@ export function Profile({navigation}){
            <TouchableOpacity style={styles.view5} onPress={selectProfilePicture}>
               <View style={styles.dpBack}>
                 <View style={styles.dpView}>
-                <Image source={{uri:profileImage!=null?profileImage.uri:"http://192.168.1.189/anychat/avatars/"+dp+".png"}} style={styles.avatarBack}/>
+                <Image source={{uri:profileImage!=null?profileImage.uri:"http://192.168.1.189/anychat/avatars/"+dp+".png",cache:"reload"}} style={styles.avatarBack}/>
                 </View>
                 <View style={styles.imageSelector}>
                   <Icon name="camera" color="white" size={20}/>
@@ -121,7 +150,7 @@ export function Profile({navigation}){
             <FlatList data={info} renderItem={loadInfo}/>
             
             <View style={styles.view8}>
-              <TouchableOpacity style={styles.button1} activeOpacity={0.6}>
+              <TouchableOpacity style={styles.button1} activeOpacity={0.6} onPress={updateDp}>
                 <Text style={styles.btnText1}>Update profile</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button2} activeOpacity={0.6} onPress={()=>{navigation.navigate("ChangePassword")}}>

@@ -14,19 +14,24 @@ import {
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Profile } from "./Profile";
 
 export function Home({navigation}){
 
   const [items, setItems] = useState([]);
-  const [dp,setDp] = useState("avatar7");
+  const [dp,setDp] = useState("http://192.168.1.189/anychat/avatars/avatar7.png");
   
 
   async function loadUsers(searchText){   
     
     var userJSONText = await AsyncStorage.getItem('user');
-    var text =JSON.parse(userJSONText);
-   
-    setDp(text.user.profile_url);
+    var text =JSON.parse(userJSONText);    
+    var url = text.user.profile_url;
+    
+    //var imageURL = "http://192.168.1.189/anychat/avatars/"+url+".png?time=" + new Date();
+    
+    //setting new url 
+    setDp(url);
 
     const form= new FormData();
     form.append("userJson",userJSONText);
@@ -55,10 +60,7 @@ export function Home({navigation}){
   } 
 
   useEffect(startAgain,[]);
-
-  function loadProfile(){
-    navigation.navigate("Profile");
-  }
+  
 
   const ui = (
     <SafeAreaView style={styles.main}> 
@@ -72,7 +74,8 @@ export function Home({navigation}){
           activeOpacity={0.5}
           onPress={()=>{navigation.navigate("Profile")}}
           >
-          <View style={styles.view5}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+dp+".png"}} style={styles.dp}/></View>
+          <View style={styles.view5}>
+            <Image  source={{uri:"http://192.168.1.189/anychat/avatars/"+dp+".png",cache:"reload"}} style={styles.dp} /></View>
         </TouchableOpacity>
         <TextInput 
           style={styles.input1} 
@@ -96,6 +99,7 @@ export function Home({navigation}){
           </TouchableOpacity>
         </View>
       </View>
+      
     </SafeAreaView>
   );
 

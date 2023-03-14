@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   avatarBack:{
     height:120,
     width:120,    
-    borderRadius:35,
+    borderRadius:60,
   },
   view6:{
     alignItems:"center"

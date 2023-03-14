@@ -60,7 +60,7 @@ export function ProfileImageSelect({navigation,route}){
       if(request.readyState==4 && request.status==200){    
         Alert.alert("Message","Sign Up successfull");
         
-         //Navigate to Home
+         //Navigate to SignIn
          navigation.navigate("SignIn");
       }
     };
