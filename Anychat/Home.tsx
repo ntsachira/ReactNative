@@ -19,6 +19,9 @@ export function Home({navigation}){
   const [items, setItems] = useState([]);
  const [dp,setDp] = useState("avatar7");
 
+ const [appIcon,setAppIcon] =useState("logo1");
+ const [appBak,setAppBak] =useState("black");
+
   async function loadUsers(searchText){   
     var userJSONText = await AsyncStorage.getItem('user');
     var text =JSON.parse(userJSONText);
@@ -33,6 +36,12 @@ export function Home({navigation}){
         if (request.readyState == 4 && request.status == 200) {
           setItems(JSON.parse(request.responseText));
          //Alert.alert("Message",request.responseText);
+        //  if(appIcon=="logo1"){
+        //   setAppIcon("logoBlack");
+        //  }else{
+        //   setAppIcon("logo1");
+        //  }
+         
         }
       };
       request.open('POST', 'http://192.168.1.189/anychat/load_users.php', true);
@@ -42,9 +51,11 @@ export function Home({navigation}){
 
   function start(){
     loadUsers("");
+    
   }
 function startAgain(){
   loadUsers("");
+  
   setInterval(start,3000);
 }
  
@@ -52,17 +63,16 @@ function startAgain(){
   useEffect(startAgain,[]);
 
   function signout(){
-    //  const user = {
-    //   'log':'signout',
-    //    'user':{'id':""}
-    //  };
-    //  AsyncStorage.setItem(`user`,JSON.stringify(user));
-    //  const obj ={};
+    
     navigation.navigate("SignOut",);
   }
 
   const ui = (
-    <SafeAreaView style={styles.main}>      
+    <SafeAreaView style={styles.main}> 
+      <View style={styles.iconView}>
+        <View style={styles.iconBackView}><Image source={{uri:"http://192.168.1.189/anychat/"+appIcon+".png"}} style={styles.iconImage}/></View>        
+        <Text style={styles.iconText}>NY CHAT</Text>
+      </View>     
       <View style={styles.view1}>
         <TouchableOpacity 
         style={styles.menuView} 
@@ -81,7 +91,7 @@ function startAgain(){
           <View style={styles.view4}>
             <FlatList data={items} renderItem={chatUI}/>
           </View>          
-          <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={()=>{navigation.navigate("NewChat")}}>
+          <TouchableOpacity style={appIcon=="logoBlack"?styles.button3:styles.button31} activeOpacity={0.7} onPress={()=>{navigation.navigate("NewChat")}}>
               <Text style={styles.text3}>Start a new chat</Text>
           </TouchableOpacity>
         </View>
@@ -116,7 +126,6 @@ function startAgain(){
       //Alert.alert("Message",item.name);
   
       const obj = {"name":item.name,"id":item.id,"img":item.dpName};
-  
       navigation.navigate("Chat",obj);
     }
   }
@@ -127,14 +136,54 @@ function startAgain(){
 
 
 const styles = StyleSheet.create({ 
+  button31:{
+    width:"50%",
+    backgroundColor:"blue",
+    alignItems:"center",
+    justifyContent:"center",
+    height:60,
+    borderRadius:30,  
+    zIndex:1,
+    position:"absolute",
+    bottom:30,
+    borderColor:"black",   
+    borderBottomWidth:1,  
+    borderLeftWidth:1,
+    borderRightWidth:1,
+  },
+  
+  iconBackView:{
+    height:40,
+    width:43,
+    backgroundColor:"white",
+    borderRadius:20,
+    start:-2
+  },
+  iconText:{
+    color:"white",
+    fontSize:30,
+    fontFamily:"RighteousRegular",
+  },
+  iconView:{
+    flexDirection:"row",
+    position:"absolute",
+    zIndex:1,
+    alignItems:"center",
+    justifyContent:"center",
+    columnGap:2,
+    top:4
+  },
+  iconImage:{
+    height:35,
+    width:35, 
+    start:3   
+  },
   logOutView:{
     height:60,
     width:60,
     alignItems:"center",    
     borderRadius:30,
-    top:-5  ,
-    
-    
+    top:-5  ,    
   },
   dp:{
     height:59,
@@ -294,13 +343,13 @@ const styles = StyleSheet.create({
   view2:{    
     width:"100%",
     alignItems:"center",      
-    height:730 
+    height:710 
   },
   view1:{    
     width:"100%",
     alignItems:"flex-end",
     justifyContent:"center",
-    height:100,
+    height:125,
     flexDirection:"row", 
     backgroundColor:"#5271FF", 
     paddingBottom:20  ,

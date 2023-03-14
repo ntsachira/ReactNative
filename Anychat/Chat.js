@@ -116,8 +116,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
     
   }
   function startAgain(){
-    setInterval(start,2000);
     loadChat(false);
+    setInterval(start,2000);
+   
   }
   useEffect(startAgain,[]);
 
