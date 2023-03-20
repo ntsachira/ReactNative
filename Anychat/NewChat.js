@@ -99,7 +99,7 @@ export function NewChat({navigation}){
             <Text style={styles.text2}>Tap to chat</Text>
           </View>
           <View style={styles.view8}>
-            <Text style={styles.text4}>Sri Lanka</Text>                          
+            <Text style={styles.text4}>{item.country}</Text>                          
           </View>
       </TouchableOpacity>
     );
@@ -108,7 +108,7 @@ export function NewChat({navigation}){
     function m(){
       //Alert.alert("Message",item.name);
   
-      const obj = {"name":item.name,"id":item.id,"img":item.dpName};
+      const obj = {"name":item.name,"id":item.id,"img":item.dpName,"country":item.country,"mobile":item.mobile};
   
       navigation.navigate("Chat",obj);
     }
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     width:60,
     alignItems:"center",
     justifyContent:"center",
-    backgroundColor:"#707070",
+    
     borderRadius:50,
   },
   text4:{
@@ -141,12 +141,12 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
   },
   image1:{
-    height:60,
-    width:60,    
+    height:59,
+    width:59,    
     alignItems:"center",
     justifyContent:"center", 
     borderRadius:30,
-    backgroundColor:"#5271FF"
+    backgroundColor:"#707070",    
   },
   view9:{
     borderBottomWidth:1,

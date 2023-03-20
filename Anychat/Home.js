@@ -4,31 +4,26 @@ import {
   SafeAreaView, 
   StyleSheet, 
   Text,
-  TextInput,
-  Touchable,
+  TextInput,  
   TouchableOpacity,
   View,
-  FlatList,
-  Alert
+  FlatList,  
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Profile } from "./Profile";
+
 
 export function Home({navigation,route}){
 
   const [items, setItems] = useState([]);
-  const [dp,setDp] = useState("http://192.168.1.189/anychat/avatars/avatar7.png");
- 
+  const [dp,setDp] = useState("http://192.168.1.189/anychat/avatars/avatar7.png"); 
 
   async function loadUsers(searchText){   
     var reload = 0;//to clear interval
     var userJSONText = await AsyncStorage.getItem('user');
     var text =JSON.parse(userJSONText);    
-    var url = text.user.profile_url;
-    
-    //var imageURL = "http://192.168.1.189/anychat/avatars/"+url+".png?time=" + new Date();
+    var url = text.user.profile_url;       
     
     //setting new url 
     setDp(url);
@@ -41,9 +36,7 @@ export function Home({navigation,route}){
       var request = new XMLHttpRequest();
       request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
-          setItems(JSON.parse(request.responseText));
-         
-         
+          setItems(JSON.parse(request.responseText));   
         }
       };
       request.open('POST', 'http://192.168.1.189/anychat/load_users.php', true);
@@ -54,8 +47,7 @@ export function Home({navigation,route}){
     loadUsers("");    
   }
   function startAgain(){
-    loadUsers("");
-  
+    loadUsers("");  
     reload = setInterval(start,3000);  
   } 
 
@@ -91,9 +83,11 @@ export function Home({navigation,route}){
       </View>
       <View style={styles.view2}>
         <View style={styles.view3}>
+
           <View style={styles.view4}>
             <FlatList data={items} renderItem={chatUI}/>
           </View>          
+          
           <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={()=>{navigation.navigate("NewChat")}}>
               <Text style={styles.text3}>Start a new chat</Text>
           </TouchableOpacity>
@@ -246,11 +240,9 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     height:80,
     borderRadius:34,
-    backgroundColor:"white",
-    borderLeftWidth:1,
+    backgroundColor:"white",   
     paddingRight:5,
-    borderBottomRightRadius:0,
-    
+    borderBottomRightRadius:0,    
   },
   view6:{    
     width:"20%",

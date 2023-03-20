@@ -1,25 +1,22 @@
-import React,{useState,useEffect} from "react";
+import React,{useState} from "react";
 import {
   Image,
   SafeAreaView, 
   StyleSheet, 
-  Text,
-  TextInput,
-  Touchable,
+  Text,  
   TouchableOpacity,
   View,
   Alert
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {launchImageLibrary} from 'react-native-image-picker';
+
 
 export function ProfileImageSelect({navigation,route}){
   
   const [avatarUrl,setAvatarUrl] = useState("avatar7");
-  const [profileImage,setProfileImage] = useState(null);
-  const [skipButton,setSkipButton] = useState("Finish");
+  const [profileImage,setProfileImage] = useState(null);  
   const [imageStatus,setImageStatus] = useState("");
 
   async function selectProfilePicture(){
@@ -41,10 +38,10 @@ export function ProfileImageSelect({navigation,route}){
 
       setProfileImage(imageObject);
       //loadSignUp(0);
-      
+      setAvatarUrl(route.params.mobile);
+      setImageStatus("image");
     }
-    setAvatarUrl(route.params.mobile);
-   setImageStatus("image");
+    
   }
 
   function loadSignUp(){
@@ -53,7 +50,7 @@ export function ProfileImageSelect({navigation,route}){
     form.append("profileImage",profileImage);
     form.append("signUpDetails",JSON.stringify(route.params));
     form.append("avatarUrl",avatarUrl);
-   form.append("imageStatus",imageStatus);
+    form.append("imageStatus",imageStatus);
 
     const request = new XMLHttpRequest();
     request.onreadystatechange = function(){
@@ -67,6 +64,7 @@ export function ProfileImageSelect({navigation,route}){
     request.open("POST","http://192.168.1.189/anychat/signUpProcess.php",true);
     request.send(form);
   }
+
   const ui = (
     <SafeAreaView style={styles.main}>
       <Image source={require("./images/logo1Large.png")} style={styles.image1}/>
@@ -94,25 +92,25 @@ export function ProfileImageSelect({navigation,route}){
             <View style={styles.view7}>
               <View style={styles.avatarStack}>
                 <TouchableOpacity style={styles.avatarBack} onPress={()=>{setAvatarUrl("avatar5");setImageStatus("avatar")}}>
-                  <Image source={require("./images/avatars/avatar5.png")} style={styles.avatarBack}/></TouchableOpacity>
+                  <Image source={{uri:"http://192.168.1.189/anychat/avatars/avatar5.png"}} style={styles.avatarBack}/></TouchableOpacity>
                 <TouchableOpacity style={styles.avatarBack} onPress={()=>{setAvatarUrl("avatar2");setImageStatus("avatar")}}>
-                  <Image source={require("./images/avatars/avatar2.png")} style={styles.avatarBack}/></TouchableOpacity>
+                  <Image source={{uri:"http://192.168.1.189/anychat/avatars/avatar2.png"}} style={styles.avatarBack}/></TouchableOpacity>
                 <TouchableOpacity style={styles.avatarBack} onPress={()=>{setAvatarUrl("avatar3");setImageStatus("avatar")}}>
-                  <Image source={require("./images/avatars/avatar3.png")} style={styles.avatarBack}/></TouchableOpacity>
+                  <Image source={{uri:"http://192.168.1.189/anychat/avatars/avatar3.png"}} style={styles.avatarBack}/></TouchableOpacity>
               </View>
               <View style={styles.avatarStack}>
                 <TouchableOpacity style={styles.avatarBack} onPress={()=>{setAvatarUrl("avatar4");setImageStatus("avatar")}}>
-                  <Image source={require("./images/avatars/avatar4.png")} style={styles.avatarBack}/></TouchableOpacity>
+                  <Image source={{uri:"http://192.168.1.189/anychat/avatars/avatar4.png"}} style={styles.avatarBack}/></TouchableOpacity>
                 <TouchableOpacity style={styles.avatarBack} onPress={()=>{setAvatarUrl("avatar1");setImageStatus("avatar")}}>
-                  <Image source={require("./images/avatars/avatar1.png")} style={styles.avatarBack}/></TouchableOpacity>
+                  <Image source={{uri:"http://192.168.1.189/anychat/avatars/avatar1.png"}} style={styles.avatarBack}/></TouchableOpacity>
                 <TouchableOpacity style={styles.avatarBack} onPress={()=>{setAvatarUrl("avatar6");setImageStatus("avatar")}}>
-                  <Image source={require("./images/avatars/avatar6.png")} style={styles.avatarBack}/></TouchableOpacity>
+                  <Image source={{uri:"http://192.168.1.189/anychat/avatars/avatar6.png"}} style={styles.avatarBack}/></TouchableOpacity>
               </View>
             </View>
           </View>
           
           <TouchableOpacity style={styles.button3} activeOpacity={0.7} onPress={loadSignUp}>
-              <Text style={styles.text3}>{skipButton}</Text>
+              <Text style={styles.text3}>Finish</Text>
           </TouchableOpacity>
         </View>
       </View>

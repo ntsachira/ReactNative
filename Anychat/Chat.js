@@ -4,8 +4,7 @@ import {
   SafeAreaView, 
   StyleSheet, 
   Text,
-  TextInput,
-  Touchable,
+  TextInput,  
   TouchableOpacity,
   View,
   FlatList,
@@ -38,6 +37,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
         var responseArray = JSON.parse(responseText);
         setChatHistory(responseArray);
         //Alert.alert("Message",request.responseText);
+        
        //scroll the view send a new message
         if(scroll){
         flatlistRef.current.scrollToEnd();
@@ -51,8 +51,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
     async function saveChat(){
   
-      var userJsonText = await AsyncStorage.getItem('user');
-  
+      var userJsonText = await AsyncStorage.getItem('user');  
       var fromUserObject = JSON.parse(userJsonText);
      
       var requestObject ={

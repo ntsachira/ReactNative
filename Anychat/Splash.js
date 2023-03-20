@@ -8,24 +8,15 @@ import {
   TouchableOpacity
   } 
 from 'react-native';
-import { SignUp } from "./SignUp";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Icon } from "react-native-vector-icons/Icon";
-
-
 
 export function Splash({navigation,route}){
-  
-
  
-  async function checkUser() {
-    
+  async function checkUser() {    
     const user = await AsyncStorage.getItem('user');  
 
-    if(user!=null){
-
-      const userJs = JSON.parse(user);
-     
+    if(user!=null){ 
+      const userJs = JSON.parse(user);    
       const screen = userJs.log!="signout"?"Home":"SignIn";
       navigation.navigate(screen);
 

@@ -1,12 +1,11 @@
-import React,{useState,useEffect} from "react";
+import React,{useState} from "react";
 import {
   Alert,
   Image,
   SafeAreaView, 
   StyleSheet, 
   Text,
-  TextInput,
-  Touchable,
+  TextInput,  
   TouchableOpacity,
   View,
   } 
@@ -15,21 +14,23 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function SignIn({navigation}){
+
   const [mobile,setMobile] = useState("");
   const [password,setPassword] = useState("");
+
   const [error,setError] = useState("");
 
   const [hide1,setHide1] = useState(1);
   
   
   function loadSignIn(){
-    var jsRequestObject ={"mobile":mobile,"password":password};
+    const jsRequestObject ={"mobile":mobile,"password":password};
     
     const form = new FormData();
     form.append("requestJSON",JSON.stringify(jsRequestObject));
 
-  const request = new XMLHttpRequest();
-  request.onreadystatechange = function(){
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
     if (request.readyState == 4 && request.status == 200) {
           var jsonResponseText = request.responseText;          
           var jsResponseObject = JSON.parse(jsonResponseText);  
@@ -68,6 +69,7 @@ export function SignIn({navigation}){
               <Text style={styles.text2}>Sign Up</Text>
             </TouchableOpacity>
           </View>
+
           {/* Invalid username or password Error Message */}
           <Text style={{color:"red", fontSize:14,bottom:-10}}>{error}</Text>
 
@@ -83,8 +85,7 @@ export function SignIn({navigation}){
                 onChangeText={setMobile}    
                 autoCorrect={false} 
                 inputMode="numeric" 
-                maxLength={10}
-                                                        
+                maxLength={10}                                                        
               />
             </View>
             <View style={styles.inputView}>
@@ -106,7 +107,9 @@ export function SignIn({navigation}){
             <TouchableOpacity 
             style={styles.button4} 
             activeOpacity={0.7} 
-            onPress={()=>{Alert.alert("Forgot Password?","Who cares, LOL")}}>
+            onPress={()=>{Alert.alert("Forgot Password?","Who cares, LOL")}}
+            hitSlop={20}
+            >
               <Text style={styles.text4}>Forgot password?</Text>
             </TouchableOpacity>
           </View>

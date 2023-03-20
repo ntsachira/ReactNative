@@ -4,11 +4,9 @@ import {
   SafeAreaView, 
   StyleSheet, 
   Text,
-  TextInput,
-  Touchable,
+  TextInput,  
   TouchableOpacity,
-  View,
-  Alert,
+  View,  
   } 
 from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -116,7 +114,7 @@ export function SignUp({navigation,route}){
           <View style={styles.view5}>
             <View style={styles.inputView}>
               <View style={styles.iconBack}>
-                <Icon name="mobile" color="white" size={25}/>
+                <Icon name="mobile" color="white" size={30}/>
               </View>
               <TextInput 
               style={styles.input1} 
@@ -199,7 +197,8 @@ export function SignUp({navigation,route}){
               borderBottomColor: '#A8A7A7',                
               borderColor:"white", 
               paddingLeft:20,
-              paddingRight:0                              
+              paddingRight:0  ,
+              backgroundColor:"#0000"                            
               },
               textContentStyle: {
               color: 'black',
