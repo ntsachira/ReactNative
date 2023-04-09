@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export function Home({navigation,route}){
 
   const [items, setItems] = useState([]);
-  const [dp,setDp] = useState("http://192.168.1.189/anychat/avatars/avatar7.png"); 
+  const [dp,setDp] = useState("https://2d1b-192-248-3-212.ngrok.io/anychat/avatars/avatar7.png"); 
 
   async function loadUsers(searchText){   
     var reload = 0;//to clear interval
@@ -39,7 +39,7 @@ export function Home({navigation,route}){
           setItems(JSON.parse(request.responseText));   
         }
       };
-      request.open('POST', 'http://192.168.1.189/anychat/load_users.php', true);
+      request.open('POST', 'https://2d1b-192-248-3-212.ngrok.io/anychat/load_users.php', true);
       request.send(form); 
   }
 
@@ -57,7 +57,7 @@ export function Home({navigation,route}){
   const ui = (
     <SafeAreaView style={styles.main}> 
       <View style={styles.iconView}>
-        <View style={styles.iconBackView}><Image source={{uri:"http://192.168.1.189/anychat/logo1.png"}} style={styles.iconImage}/></View>        
+        <View style={styles.iconBackView}><Image source={{uri:"https://2d1b-192-248-3-212.ngrok.io/anychat/logo1.png"}} style={styles.iconImage}/></View>        
         <Text style={styles.iconText}>NY CHAT</Text>
       </View>     
       <View style={styles.view1}>
@@ -67,7 +67,7 @@ export function Home({navigation,route}){
           onPress={()=>{navigation.navigate("Profile")}}
           >
           <View style={styles.view5}>
-            <Image  source={{uri:"http://192.168.1.189/anychat/avatars/"+dp+".png",cache:"reload"}} style={styles.dp} /></View>
+            <Image  source={{uri:"https://2d1b-192-248-3-212.ngrok.io/anychat/avatars/"+dp+".png",cache:"reload"}} style={styles.dp} /></View>
         </TouchableOpacity>
         <TextInput 
           style={styles.input1} 
@@ -101,7 +101,7 @@ export function Home({navigation,route}){
     const ui = (
       <TouchableOpacity style={styles.view9} activeOpacity={0.5} onPress={m}>
           <View style={styles.view6}>
-             <View style={styles.image1}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+item.dpName+".png"}} style={styles.avatarBack} /></View>
+             <View style={styles.image1}><Image source={{uri:"https://2d1b-192-248-3-212.ngrok.io/anychat/avatars/"+item.dpName+".png"}} style={styles.avatarBack} /></View>
           </View>
           <View style={styles.view7}>
             <Text style={styles.text1}>{item.name}</Text>

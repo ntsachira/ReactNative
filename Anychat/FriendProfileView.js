@@ -23,7 +23,7 @@ export function FriendProfileView({navigation,route}){
       <View style={styles.view2}>
         <View style={styles.view3}>                  
           <View style={styles.dpView}>
-            <Image source={{uri:"http://192.168.1.189/anychat/avatars/"+route.params.img+".png"}} style={styles.avatarBack} />
+            <Image source={{uri:"https://2d1b-192-248-3-212.ngrok.io/anychat/avatars/"+route.params.img+".png"}} style={styles.avatarBack} />
           </View>             
           <View style={styles.view6}>
             <Text style={styles.text1}>Name</Text>

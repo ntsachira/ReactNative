@@ -61,7 +61,7 @@ export function ProfileImageSelect({navigation,route}){
          navigation.navigate("SignIn");
       }
     };
-    request.open("POST","http://192.168.1.189/anychat/signUpProcess.php",true);
+    request.open("POST","https://2d1b-192-248-3-212.ngrok.io/anychat/signUpProcess.php",true);
     request.send(form);
   }
 

@@ -126,7 +126,7 @@ export function Profile({navigation}){
          
         }
       };
-      request.open('POST', 'http://192.168.1.189/anychat/updateDp.php', true);
+      request.open('POST', 'https://2d1b-192-248-3-212.ngrok.io/anychat/updateDp.php', true);
       request.send(form); 
     }
       
@@ -146,7 +146,7 @@ export function Profile({navigation}){
            <TouchableOpacity style={styles.view5} onPress={selectProfilePicture}>
               <View style={styles.dpBack}>
                 <View style={styles.dpView}>
-                <Image source={{uri:profileImage!=null?profileImage.uri:"http://192.168.1.189/anychat/avatars/"+dp+".png",cache:"reload"}} style={styles.avatarBack}/>
+                <Image source={{uri:profileImage!=null?profileImage.uri:"https://2d1b-192-248-3-212.ngrok.io/anychat/avatars/"+dp+".png",cache:"reload"}} style={styles.avatarBack}/>
                 </View>
                 <View style={styles.imageSelector}>
                   <Icon name="camera" color="white" size={20}/>

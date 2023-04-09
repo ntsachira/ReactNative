@@ -1,10 +1,9 @@
-import React,{useState,useEffect} from "react";
+import React,{useEffect} from "react";
 import {
   Image,
   SafeAreaView, 
   StyleSheet, 
-  Text,
-  Alert,
+  Text,  
   TouchableOpacity
   } 
 from 'react-native';

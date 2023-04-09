@@ -17,7 +17,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function NewChat({navigation}){
 
-  var i = 0;
+  
+  
   
   const [emptyMessage,setEmptyMessage] = useState("");
   const [items, setItems] = useState([]);
@@ -25,6 +26,7 @@ export function NewChat({navigation}){
   
  
    async function loadUsers(searchText){   
+    var reload = 0;//to clear interval
      var userJSONText = await AsyncStorage.getItem('user');
      var text =JSON.parse(userJSONText);
     
@@ -39,15 +41,15 @@ export function NewChat({navigation}){
           const jsResponseItemArray =JSON.parse(request.responseText);
            setItems(JSON.parse(request.responseText));
 
-          if(jsResponseItemArray==""){
+          if(jsResponseItemArray==""&searchText==null){
             Alert.alert("Message","Sorry ! no more new chats are available.");
-            clearInterval(i);
+            clearInterval(reload);
             navigation.navigate("Home");
             
           }
          }
        };
-       request.open('POST', 'http://192.168.1.189/anychat/load_users.php', true);
+       request.open('POST', 'https://2d1b-192-248-3-212.ngrok.io/anychat/load_users.php', true);
        request.send(form); 
  
    }
@@ -56,8 +58,8 @@ export function NewChat({navigation}){
      loadUsers("");
    }
  function startAgain(){
-  start();
-    i = setInterval(start,5000);
+  loadUsers("");
+  reload = setInterval(start,3000);
    
  }
 
@@ -73,7 +75,7 @@ export function NewChat({navigation}){
         style={styles.input1} 
         placeholder="Search to start a new chat" 
         placeholderTextColor={"#A8A7A7"}
-        onChangeText={(text)=>{loadUsers(text)}}
+        onChangeText={(text)=>{loadUsers(text);clearInterval(reload);}}
         />        
       </View>
       <View style={styles.view2}>
@@ -92,7 +94,7 @@ export function NewChat({navigation}){
       
       <TouchableOpacity style={styles.view9} activeOpacity={0.5} onPress={m}>
           <View style={styles.view6}>
-             <View style={styles.image1}><Image source={{uri:"http://192.168.1.189/anychat/avatars/"+item.dpName+".png"}} style={styles.avatarBack} /></View>
+             <View style={styles.image1}><Image source={{uri:"https://2d1b-192-248-3-212.ngrok.io/anychat/avatars/"+item.dpName+".png"}} style={styles.avatarBack} /></View>
           </View>
           <View style={styles.view7}>
             <Text style={styles.text1}>{item.name}</Text>

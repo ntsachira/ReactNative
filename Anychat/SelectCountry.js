@@ -1,30 +1,19 @@
 import React,{useState,useEffect} from "react";
-import {
-  FlatList,
+import {  
   Image,
   SafeAreaView, 
   StyleSheet, 
-  Text,
-  TextInput,
-  Touchable,
+  Text,  
   TouchableOpacity,
   View,
   Alert
   } 
 from 'react-native';
-import Icon from 'react-native-vector-icons/dist/AntDesign';
 import Dropdown from '@febfeb/react-native-dropdown';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function SelectCountry({navigation}){  
-//   const fruits = [
-//     { id: 1, label: 'Apple'},
-//     { id: 2, label: 'Orange'},
-//     { id: 4, label: 'Pineapple'},
-//     { id: 5, label: 'Sri Lanka'},
-//     { id: 6, label: 'India'},
-//     { id: 7, label: 'Japan'},
-// ];
+
 
 const [country, setCountry] = useState(1);
 const [countryArray,setCountryArray] = useState([]);

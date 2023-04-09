@@ -44,7 +44,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
        }
       }
     };
-    request.open('POST', 'http://192.168.1.189/anychat/load_chat.php', true);
+    request.open('POST', 'https://2d1b-192-248-3-212.ngrok.io/anychat/load_chat.php', true);
     request.send(form);  
      
     }
@@ -69,7 +69,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
         loadChat(true);        
       }
     };
-    request.open('POST', 'http://192.168.1.189/anychat/saveChat.php', true);
+    request.open('POST', 'https://2d1b-192-248-3-212.ngrok.io/anychat/saveChat.php', true);
     request.send(formData); 
    
     }  
@@ -88,7 +88,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
         <View style={styles.nameView}><Text style={styles.text5}>{route.params.name}</Text></View>
         <TouchableOpacity style={styles.profileView} onPress={loadFriendProfileView}>
             <View style={styles.view5}>
-              <Image source={{uri:"http://192.168.1.189/anychat/avatars/"+route.params.img+".png"}} style={styles.avatarBack} />
+              <Image source={{uri:"https://2d1b-192-248-3-212.ngrok.io/anychat/avatars/"+route.params.img+".png"}} style={styles.avatarBack} />
             </View>
         </TouchableOpacity>
       </View>
